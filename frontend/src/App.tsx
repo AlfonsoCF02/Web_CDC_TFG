@@ -1,18 +1,26 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/shared/Header';
+import Footer from './components/shared/Footer';
+import LoginPage from './pages/login/LoginPage';
+//import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
+//import ResetPasswordPage from './pages/login/ResetPasswordPage';
+//import RegisterPage from './pages/register/RegisterPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-import './App.css';
+//<Route path="/login/forgot-password" element={<ForgotPasswordPage />} />
+//<Route path="/login/reset-password" element={<ResetPasswordPage />} />
+//<Route path="/register" element={<RegisterPage />} />
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
-      </div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+      <Footer />
     </Router>
   );
 };

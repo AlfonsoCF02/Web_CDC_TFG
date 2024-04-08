@@ -1,0 +1,144 @@
+/******************************************
+ *
+ * Codigo base tomado de:
+ *
+ * @author          Muhamad Nauval Azhar
+ * @copyright       Copyright (c) 2018 Muhamad Nauval Azhar
+ * @license         My Login is licensed under the MIT license.
+ * @github          https://github.com/nauvalazhar/my-login
+ *
+ * Posteriores modificado por:
+ * 
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    CSS para la página de inicio de sesión
+ * 
+ ******************************************/
+
+html,body {
+	height: 100%;
+}
+
+body.my-login-page {
+	background-color: #f7f9fb;
+	font-size: 14px;
+}
+
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 18px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
+
+.my-login-page .brand img {
+	width: 100%;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+/* Agrega más espacio entre la caja del formulario y el footer */
+.card-wrapper {
+	margin-bottom: 25px; /* Ajusta esto según sea necesario */
+  }  
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+/* Aumenta el padding del contenedor para que el cuadro sea más grande */
+.my-login-page .card.fat {
+	padding: 40px; /* Añade más padding para hacer el cuadro más grande sin afectar el tamaño del formulario */
+}
+
+/* Ajusta el margen entre los campos del formulario */
+.my-login-page .form-group {
+	margin-bottom: 20px; /* Aumenta el espacio entre los campos del formulario */
+}
+
+/* Aumenta el espacio entre campos del formulario y su recuadro */
+.my-login-page .form-control {
+	margin-top: 6px; 
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+.my-login-page .card-body {
+	padding-top: 25px; 
+	padding-bottom: 25px; 
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.eye-icon {
+	cursor: pointer;
+	right: 15px;
+	top: 50px; 
+	transform: translateY(-50%);
+	position: absolute; 
+}
+
+.eye-icon-adjusted {
+	cursor: pointer;
+	right: 35px;
+	top: 50px; 
+	transform: translateY(-50%);
+	position: absolute; 
+}
+
+
+#password {
+	padding-right: 55px; 
+}
+  
+
+#password.is-valid,
+#password.is-invalid {
+	padding-right: 65px; 
+}
+  
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+}
