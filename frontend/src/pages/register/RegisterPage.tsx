@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
 
-/******************************************
+/******************************************************************************
  *
  * @author          Alfonso Cabezas Fernández
  * 
@@ -10,7 +10,7 @@ import '../../assets/css/my-login.css';
  * 
  * @description    Página de reseteo de la contraseña
  * 
- ******************************************/
+ ******************************************************************************/
 
 const RegisterPage: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -35,6 +35,7 @@ const RegisterPage: React.FC = () => {
   const [passwordValid, setPasswordValid] = useState<boolean | null>(null);
   const [confirmPasswordValid, setConfirmPasswordValid] = useState<boolean | null>(null);
   const [termsAcceptedValid, setTermsAcceptedValid] = useState<boolean | null>(null);
+  const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
 
   const validateName = (name: string): boolean => {
     if (name.trim() === '') {
@@ -195,6 +196,15 @@ const RegisterPage: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
+  const openTermsModal = () => {
+    setShowTermsModal(true);
+  };
+
+  const handleTermsClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault(); // Evita que el enlace realice su acción predeterminada
+    openTermsModal(); // Abre el modal de términos y condiciones
+  };
+
   return (
     <div className="my-login-page">
       <section className="h-100">
@@ -248,7 +258,7 @@ const RegisterPage: React.FC = () => {
                       {emailValid === false && <div className="invalid-feedback">{emailError}</div>}
                     </div>
                     <div className="mb-3 position-relative">
-                      <label htmlFor="phone">Número de Teléfono</label>
+                      <label htmlFor="phone">Teléfono</label>
                       <input 
                         id="phone" 
                         type="tel" 
@@ -261,7 +271,7 @@ const RegisterPage: React.FC = () => {
                       {phoneValid === false && <div className="invalid-feedback">{phoneError}</div>}
                     </div>
                     <div className="mb-3 position-relative">
-                      <label htmlFor="new-password">Nueva contraseña</label>
+                      <label htmlFor="new-password">Contraseña</label>
                       <input 
                         id="new-password" 
                         type={showPassword ? "text" : "password"} 
@@ -304,12 +314,12 @@ const RegisterPage: React.FC = () => {
                         required 
                       />
                       <label className="form-check-label" htmlFor="terms-checkbox">
-                        Acepto los términos y condiciones
+                        Acepto los <a className="link-like" onClick={handleTermsClick}>términos y condiciones</a>
                       </label>
                       {termsAcceptedValid === false && <div className="invalid-feedback">{termsAcceptedError}</div>}
                     </div>
                     <div className="d-grid mb-3">
-                      <button type="submit" className="btn btn-primary">Registrar</button>
+                      <button type="submit" className="btn btn-primary">Registrarse</button>
                     </div>
                     <div className="mt-3 text-center">
                       ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
@@ -321,6 +331,33 @@ const RegisterPage: React.FC = () => {
           </div>
         </div>
       </section>
+      <div className={`modal ${showTermsModal ? 'show' : ''}`} tabIndex={-1} role="dialog" style={{ display: showTermsModal ? 'block' : 'none' }}>
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Términos y Condiciones</h5>
+              <button type="button" className="btn-close" onClick={() => setShowTermsModal(false)} aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <p style={{ textAlign: 'justify' }}>
+                  Esta es una página de prueba para propósitos académicos y de demostración.
+              </p>
+              <p style={{ textAlign: 'justify' }}>
+                  Los datos ingresados en esta página serán almacenados temporalmente con el único propósito de tener un dataset apropiado para la defensa de este TFG y serán eliminados en un plazo máximo de 21 días.
+              </p>
+              <p style={{ textAlign: 'justify' }}>
+                  Esta página y todos sus contenidos son parte de un proyecto de Trabajo de Fin de Grado (TFG) y no por tanto no se pueden realizar compras ni reservas reales en esta pagina.
+              </p>
+              <p style={{ textAlign: 'justify' }}>
+                  Gracias por su comprensión y por participar en este proyecto.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={() => setShowTermsModal(false)}>Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
