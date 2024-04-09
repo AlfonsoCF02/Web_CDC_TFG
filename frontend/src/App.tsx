@@ -2,13 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import LoginPage from './pages/login/LoginPage';
-//import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
+import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
 import ResetPasswordPage from './pages/login/ResetPasswordPage';
 import RegisterPage from './pages/register/RegisterPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-//<Route path="/login/forgot-password" element={<ForgotPasswordPage />} />
-
 
 const App = () => {
   return (
@@ -20,6 +18,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Routes>
       <Footer />
     </Router>
