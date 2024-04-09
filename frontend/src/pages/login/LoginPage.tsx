@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
 
@@ -22,19 +22,69 @@ import '../../assets/css/my-login.css';
  ******************************************/
 
 const LoginPage = () => {
+
   const [email, setEmail] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  
   const [password, setPassword] = useState('');
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [validated, setValidated] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailTouched(true);
+    validateEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordTouched(true);
+    validatePassword(e.target.value);
+  };
+
+  const validateEmail = (email: string) => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('El email no es válido.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    if (password.length < 1) {
+      setPasswordError('Por favor, ingrese su contraseña.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
-    setValidated(true);
-    setFormSubmitted(true);
 
-    // Incluir la lógica para manejar el envío del formulario
+    //Para validar al pulsar el botón de login marcar como tocados los campos
+    setEmailTouched(true);
+    setPasswordTouched(true);
+
+    validateEmail(email);
+    validatePassword(password);
+
+    if (!emailError && !passwordError && email && password) {
+      console.log("Login exitoso.");
+      // Aquí iría la lógica para manejar el inicio de sesión
+    }
     
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const getInputClass = (error: string, touched: boolean) => {
+    if (!touched) return 'form-control';
+    return `form-control ${error ? 'is-invalid' : touched ? 'is-valid' : ''}`;
   };
 
   return (
@@ -49,45 +99,35 @@ const LoginPage = () => {
               <div className="card">
                 <div className="card-body">
                   <h4 className="card-title">Login</h4>
-                  <form 
-                    className={`my-login-validation ${validated ? 'was-validated' : ''}`} 
-                    noValidate 
-                    onSubmit={handleSubmit}
-                  >
+                  <form noValidate onSubmit={handleSubmit}>
                     <div className="mb-3">
                       <label htmlFor="email">E-Mail</label>
                       <input 
                         id="email" 
                         type="email" 
-                        className="form-control" 
+                        className={getInputClass(emailError, emailTouched)}
                         name="email" 
                         value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
+                        onChange={handleEmailChange} 
                         autoFocus 
                       />
-                      <div className="invalid-feedback">
-                        El email no es válido.
-                      </div>
+                      {emailError && <div className="invalid-feedback">{emailError}</div>}
                     </div>
                     <div className="mb-3 position-relative">
                       <label htmlFor="password">Password</label>
                       <input 
                         id="password" 
                         type={showPassword ? "text" : "password"} 
-                        className="form-control" 
+                        className={getInputClass(passwordError, passwordTouched)}
                         name="password" 
                         value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                        onChange={handlePasswordChange}
                       />
+                      {passwordError && <div className="invalid-feedback">{passwordError}</div>}
                       <i 
-                        className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon ${formSubmitted && validated ? 'eye-icon-adjusted' : ''}`}
-                        onClick={() => setShowPassword(!showPassword)}
+                        className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon ${passwordTouched ? 'eye-icon-adjusted' : ''}`}
+                        onClick={toggleShowPassword}
                       />
-                      <div className="invalid-feedback">
-                        Debes introducir tu contraseña.
-                      </div>
                     </div>
                     <div className="mb-3 d-flex flex-wrap justify-content-between align-items-center">
                       <div className="form-check mb-2 mb-lg-0">
@@ -105,7 +145,7 @@ const LoginPage = () => {
                       <button type="submit" className="btn btn-primary">Login</button>
                     </div>
                     <div className="mt-4 text-center">
-                      ¿No tienes cuenta? <a href="/register">Crear una</a>
+                      ¿No tienes cuenta? <a href="/registro">Crear una</a>
                     </div>
                   </form>
                 </div>

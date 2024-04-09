@@ -2,6 +2,16 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
 
+/******************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de reseteo de la contraseña
+ * 
+ ******************************************/
+
 const ResetPasswordPage: React.FC = () => {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -41,9 +51,7 @@ const ResetPasswordPage: React.FC = () => {
     validateNewPassword(newPassword);
     //Para validar siempre si las contraseñas coinciden
     //validateConfirmPassword(newPassword, confirmPassword);
-    if (confirmPassword.length > 0) {
-      validateConfirmPassword(newPassword, confirmPassword);
-    }
+    if (confirmPassword) validateConfirmPassword(newPassword, confirmPassword);
   };
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,9 +62,18 @@ const ResetPasswordPage: React.FC = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (newPassword && confirmPassword && passwordValid && confirmPasswordValid) {
+    // Realizar validación explícita en el envío
+    const newPasswordIsValid = validateNewPassword(newPassword);
+    const confirmPasswordIsValid = validateConfirmPassword(newPassword, confirmPassword);
+  
+    if(confirmPassword == ""){
+      setConfirmPasswordError('Por favor, ingrese la contraseña.');
+      setConfirmPasswordValid(false);
+    }
+
+    if (newPasswordIsValid && confirmPasswordIsValid) {
       console.log("Formulario enviado con éxito.");
-      // Implementa la lógica de envío aquí
+      // Aquí se implementaría la lógica de envío del formulario
     }
   };
 
@@ -67,6 +84,7 @@ const ResetPasswordPage: React.FC = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
 
   return (
     <div className="my-login-page">
@@ -94,7 +112,7 @@ const ResetPasswordPage: React.FC = () => {
               />
               {passwordValid === false && <div className="invalid-feedback">{passwordError}</div>}
               <i 
-                className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon was-validated eye-icon-adjusted`}
+                className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon was-validated ${ passwordValid != null ? 'eye-icon-adjusted' : ''}`}
                 onClick={toggleShowPassword}
               />
             </div>
@@ -111,7 +129,7 @@ const ResetPasswordPage: React.FC = () => {
               />
               {confirmPasswordValid === false && <div className="invalid-feedback">{confirmPasswordError}</div>}
               <i 
-                className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon eye-icon-adjusted`}
+                className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} position-absolute eye-icon ${ confirmPasswordValid != null ? 'eye-icon-adjusted' : ''}`}
                 onClick={toggleShowPassword}
               />
             </div>
