@@ -1,15 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo_cdc.png';
+import { useAuth } from '../../AuthProvider';
 
 const Header: React.FC = () => {
-
-const navigate = useNavigate();
+  const { user, logout } = useAuth(); // Obtener el estado de autenticación del contexto
+  const navigate = useNavigate();
 
   return (
-    
-    <>
-    {/* Codigo base tomado de: https://getbootstrap.com/docs/5.3/examples/headers/ */}
     <div className="container">
       <header className="p-3 mb-4 border-bottom">
         <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between flex-wrap">
@@ -25,11 +23,51 @@ const navigate = useNavigate();
             <li><a href="#" className="nav-link px-2">Productos</a></li>
             <li><a href="/about" className="nav-link px-2">About</a></li>
           </ul>
-          {/* Contenedor de botones de Login y Registro */}
+          {/* Contenedor de botones de Login y Registro / logout / funcionalidades */}
           <div className="nav col-12 col-lg-auto justify-content-center justify-content-lg-start mb-2 mb-lg-0 align-items-center text-center">
             <div className="d-lg-flex flex-lg-row justify-content-center justify-content-lg-start">
-              <button type="button" className="btn btn-outline-primary mb-2 mb-lg-0" onClick={() => navigate('/login')}>Login</button>
-              <button type="button" className="btn btn-primary mb-2 mb-lg-0 ms-2 me-2" onClick={() => navigate('/registro')}>Registro</button>
+              {/* Usuario no identificado */}
+              {user ? (
+                <>
+                  {/* Botón de logout */}
+                  <button type="button" className="btn btn-outline-primary mb-2 mb-lg-0" onClick={logout}>Logout</button>
+                  {/* Desplegable de perfil para usuarios logueados */}
+                  {user.type === 'user' || user.type === 'admin' && (
+                    <div className="dropdown ms-2">
+                      <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Perfil
+                      </button>
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a className="dropdown-item" href="#">Mi perfil</a></li>
+                        <li><a className="dropdown-item" href="#">Mis Pedidos</a></li>
+                        <li><a className="dropdown-item" href="#">Mis Reservas</a></li>
+                        <li><a className="dropdown-item" href="#">Cambiar Contraseña</a></li>
+                      </ul>
+                    </div>
+                  )}
+                  {/* Botón de zona administrador para usuarios admin */}
+                  {user.type === 'admin' && (
+                    <div className="dropdown ms-2">
+                    <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      Zona Administrador
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a className="dropdown-item" href="#">Administrar Usuarios</a></li>
+                      <li><a className="dropdown-item" href="#">Administrar Pedidos</a></li>
+                      <li><a className="dropdown-item" href="#">Administrar Reservas</a></li>
+                      <li><a className="dropdown-item" href="#">Administrar Productos</a></li>
+                      <li><a className="dropdown-item" href="#">Administrar Clases</a></li>
+                    </ul>
+                  </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Botones de login y registro */}
+                  <button type="button" className="btn btn-outline-primary mb-2 mb-lg-0" onClick={() => navigate('/login')}>Login</button>
+                  <button type="button" className="btn btn-primary mb-2 mb-lg-0 ms-2 me-2" onClick={() => navigate('/registro')}>Registro</button>
+                </>
+              )}
             </div>
             {/* Icono de la cesta */}
             <a href="#" className="text-dark text-decoration-none ms-lg-5 d-inline-block d-lg-flex" aria-label="Ir a la cesta de la compra">
@@ -39,8 +77,6 @@ const navigate = useNavigate();
         </div>
       </header>
     </div>
-    </>
-    
   );
 };
 

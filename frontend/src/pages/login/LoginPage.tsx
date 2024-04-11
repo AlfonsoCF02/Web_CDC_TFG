@@ -1,5 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
+import { useAuth } from '../../AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { baseUrl } from "../../config";
+import { jwtDecode } from "jwt-decode";
 import '../../assets/css/my-login.css';
 
 /******************************************
@@ -32,6 +37,9 @@ const LoginPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailTouched(true);
@@ -60,20 +68,38 @@ const LoginPage = () => {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
 
     //Para validar al pulsar el botón de login marcar como tocados los campos
     setEmailTouched(true);
     setPasswordTouched(true);
-
     validateEmail(email);
     validatePassword(password);
 
     if (!emailError && !passwordError && email && password) {
-      console.log("Login exitoso.");
-      // Aquí iría la lógica para manejar el inicio de sesión
+      // Lógica para manejar el inicio de sesión
+
+      try {
+        const response = await axios.post(`${baseUrl}/api/user/login`, { email, password });
+
+        // Espera que el backend devuelva el token y los datos del usuario
+        const { token } = response.data; 
+
+        // Guarda el token y los datos del usuario en el contexto de autenticación
+        login(token);
+
+        //console.log("Login exitoso... Token: TokenDecrypted: Userdata", token); // Muestra el token por consola
+
+        // Redirige a la página de inicio
+
+        navigate('/');
+
+      } catch (error) {
+        setPasswordError('Credenciales incorrectas.');  
+      }
+
     }
     
   };
