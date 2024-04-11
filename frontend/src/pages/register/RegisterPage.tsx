@@ -1,6 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
+import axios from 'axios';
+import { baseUrl } from "../../config";
+
 
 /******************************************************************************
  *
@@ -164,7 +167,7 @@ const RegisterPage: React.FC = () => {
     validateTermsAccepted(e.target.checked);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const nameIsValid = validateName(name);
@@ -181,8 +184,34 @@ const RegisterPage: React.FC = () => {
     }
 
     if (nameIsValid && lastNameIsValid && emailIsValid && phoneIsValid && newPasswordIsValid && confirmPasswordIsValid && termsAcceptedIsValid) {
-      console.log("Formulario enviado con éxito.");
-      // Aquí se implementaría la lógica de envío del formulario
+      
+      try {
+        if (confirmPassword !== newPassword) {
+          setConfirmPasswordError('Las contraseñas no coinciden.');
+          return;
+        }
+
+        // Envía el formulario al backend para registrar al usuario
+        const response = await axios.post(`${baseUrl}/api/user/create`, {
+          name,
+          surname: lastName,
+          email,
+          phone,
+          password: newPassword,
+        });
+        
+  
+        console.log('Registro exitoso:', response.data);
+        // Redirige a la página de inicio de sesión
+        // navigate('/');
+      } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.error) {
+          setConfirmPasswordError(error.response.data.error);
+        } else {
+          setConfirmPasswordError('Error al registrar el usuario.');
+        }
+      }
+
     } else {
       console.log("Por favor, complete todos los campos y acepte los términos y condiciones.");
     }

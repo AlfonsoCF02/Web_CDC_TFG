@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
+import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
@@ -18,7 +19,7 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Usuario no encontrado.' });
     }
 
-    const passwordMatch = password === user.password;
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Credenciales incorrectas.' });
     }
@@ -34,6 +35,44 @@ export const loginUser = async (req: Request, res: Response) => {
 
   } catch (error) {
     console.error('Error de inicio de sesión:', error);
+    res.status(500).json({ error: 'Error en el servidor.' });
+  }
+};
+
+export const createUser = async (req: Request, res: Response) => {
+  const { name, surname, email, password, phone, type } = req.body;
+
+  try {
+    // Comprueba si el usuario ya existe en la base de datos
+    const existingUser = await prisma.usuarios.findUnique({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'El usuario ya existe.' });
+    }
+
+    // Genera un UUID único para el ID del usuario
+    const userId = uuidv4();
+    console.log("Contraseña recibida:", password);
+    const salt = await bcrypt.genSalt(10); // Genera un salt para el hash
+    const hashedPassword = await bcrypt.hash(password, salt); // Genera el hash de la contraseña
+
+    // Crea el usuario en la base de datos
+    const newUser = await prisma.usuarios.create({
+      data: {
+        id: userId,
+        name,
+        surname,
+        email,
+        password: hashedPassword,
+        phone: parseInt(phone), 
+        type: 'user', 
+      },
+    });
+
+    // Devuelve los datos del nuevo usuario
+    res.status(201).json(newUser);
+
+  } catch (error) {
+    console.error('Error al crear usuario:', error);
     res.status(500).json({ error: 'Error en el servidor.' });
   }
 };

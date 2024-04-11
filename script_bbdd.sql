@@ -10,7 +10,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='TABLA DE USUARIOS';
 
-INSERT INTO `usuarios` VALUES ('39063b7c-8e48-4b0d-bc63-1a21b3860e4d', 'Alfonso', 'Cabezas Fernández', 'alfonso@gmail.com', '1', 638638638, 'admin');
+INSERT INTO `usuarios` VALUES ('39063b7c-8e48-4b0d-bc63-1a21b3860e4d', 'Alfonso', 'Cabezas Fernández', 'alfonso@gmail.com', '$2a$10$OVERH6XdAK3BjbBoR14EBOtQ2hm0.6OvjWUpRoZAEZqqCVBikJuhS', 638638638, 'admin');
 INSERT INTO `usuarios` VALUES ('41f80529-56a8-4d11-a817-5b525c730016', 'Pepe', 'Pino Pino', 'pepe@uco.es', '1', 123456789, 'user');
 
 

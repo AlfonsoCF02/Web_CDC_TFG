@@ -82,6 +82,7 @@ const LoginPage = () => {
       // Lógica para manejar el inicio de sesión
 
       try {
+        
         const response = await axios.post(`${baseUrl}/api/user/login`, { email, password });
 
         // Espera que el backend devuelva el token y los datos del usuario
