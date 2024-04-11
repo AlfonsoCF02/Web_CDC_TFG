@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categorias {
+  id        String      @id @db.VarChar(64)
+  categoria String      @db.VarChar(64)
+  productos productos[]
+}
+
+model direcciones {
+  id       String    @id @db.VarChar(64)
+  via      String    @db.VarChar(64)
+  name     String    @db.VarChar(64)
+  number   Int
+  province String    @db.VarChar(64)
+  info     String?   @db.VarChar(64)
+  country  String    @db.VarChar(256)
+  pedidos  pedidos[]
+}
+
+model pedidos {
+  id              String            @id @db.VarChar(64)
+  userID          String            @db.VarChar(64)
+  userDirection   String            @db.VarChar(64)
+  import          Int
+  dateCreation    DateTime          @db.DateTime(0)
+  dateDelivery    DateTime?         @db.DateTime(0)
+  state           pedidos_state
+  usuarios        usuarios          @relation(fields: [userID], references: [id], onDelete: Cascade, map: "pedidos_ibfk_1")
+  direcciones     direcciones       @relation(fields: [userDirection], references: [id], onDelete: Cascade, map: "pedidos_ibfk_2")
+  pedidosProducto pedidosProducto[]
+
+  @@index([userDirection], map: "userDirection")
+  @@index([userID], map: "userID")
+}
+
+model pedidosProducto {
+  id        String    @id @db.VarChar(64)
+  orderID   String    @db.VarChar(64)
+  productID String    @db.VarChar(64)
+  quantity  Int
+  price     Int
+  pedidos   pedidos   @relation(fields: [orderID], references: [id], onDelete: Cascade, map: "PP_ibfk_1")
+  productos productos @relation(fields: [productID], references: [id], onDelete: Cascade, map: "PP_ibfk_2")
+
+  @@index([orderID], map: "orderID")
+  @@index([productID], map: "productID")
+}
+
+model productos {
+  id              String            @id @db.VarChar(64)
+  categoryID      String?           @db.VarChar(64)
+  name            String            @db.VarChar(64)
+  price           Int
+  stock           Int
+  imageURL        String            @db.VarChar(300)
+  pedidosProducto pedidosProducto[]
+  categorias      categorias?       @relation(fields: [categoryID], references: [id], map: "productos_ibfk_1")
+
+  @@index([categoryID], map: "categoryID")
+}
+
+model reservas {
+  id           String   @id @db.VarChar(64)
+  userID       String   @db.VarChar(64)
+  dateCreation DateTime @db.DateTime(0)
+  dateArrival  DateTime @db.DateTime(0)
+  participants Int
+  price        Int
+  requests     String   @db.VarChar(512)
+  usuarios     usuarios @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
+
+  @@index([userID], map: "userID")
+}
+
+model usuarios {
+  id       String        @id @db.VarChar(64)
+  name     String        @db.VarChar(64)
+  surname  String        @db.VarChar(64)
+  email    String        @unique(map: "email") @db.VarChar(64)
+  password String        @db.VarChar(64)
+  phone    Int
+  type     usuarios_type
+  pedidos  pedidos[]
+  reservas reservas[]
+}
+
+enum usuarios_type {
+  admin
+  user
+}
+
+enum pedidos_state {
+  creado
+  enviado
+  completado
+}
