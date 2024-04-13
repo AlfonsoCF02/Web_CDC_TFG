@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   build: {
-    chunkSizeWarningLimit: 100,
+    chunkSizeWarningLimit: 9000,
     rollupOptions: {
       onwarn(warning, warn) {
         if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
