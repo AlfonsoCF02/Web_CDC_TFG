@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../AuthProvider';
 import { baseUrl } from "../../config";
 
 
@@ -39,6 +41,9 @@ const RegisterPage: React.FC = () => {
   const [confirmPasswordValid, setConfirmPasswordValid] = useState<boolean | null>(null);
   const [termsAcceptedValid, setTermsAcceptedValid] = useState<boolean | null>(null);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const validateName = (name: string): boolean => {
     if (name.trim() === '') {
@@ -199,22 +204,31 @@ const RegisterPage: React.FC = () => {
           phone,
           password: newPassword,
         });
-        
   
-        console.log('Registro exitoso:', response.data);
+        //console.log('Registro exitoso:', response.data);
+
         // Redirige a la página de inicio de sesión
-        // navigate('/');
+        navigate('/');
+
       } catch (error: any) {
+        console.error('Error de registro:', error);
         if (error.response && error.response.data && error.response.data.error) {
-          setConfirmPasswordError(error.response.data.error);
+          // Muestra el mensaje de error personalizado enviado desde el servidor
+          setEmailError(error.response.data.error);
+          setEmailValid(false);
+        } else if (error.response) {
+          // Si el servidor envió un error pero no en el formato esperado
+          alert('Error en el servidor: ' + error.response.status);
         } else {
-          setConfirmPasswordError('Error al registrar el usuario.');
+          // Si no hay respuesta del servidor (problema de red o servidor caído)
+          alert('No se puede conectar al servidor. Por favor, revise su conexión a internet.');
         }
       }
 
     } else {
       console.log("Por favor, complete todos los campos y acepte los términos y condiciones.");
     }
+
   };
 
   const getValidationClass = (isValid: boolean | null): string => {

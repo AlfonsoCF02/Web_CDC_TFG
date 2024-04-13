@@ -97,8 +97,18 @@ const LoginPage = () => {
 
         navigate('/');
 
-      } catch (error) {
-        setPasswordError('Credenciales incorrectas.');  
+      } catch (error: any) {
+        console.error('Error de registro:', error);
+        if (error.response && error.response.data && error.response.data.error) {
+          // Muestra el mensaje de error personalizado enviado desde el servidor
+          setPasswordError(error.response.data.error);
+        } else if (error.response) {
+          // Si el servidor envió un error pero no en el formato esperado
+          alert('Error en el servidor: ' + error.response.status);
+        } else {
+          // Si no hay respuesta del servidor (problema de red o servidor caído)
+          alert('No se puede conectar al servidor. Por favor, revise su conexión a internet.');
+        }
       }
 
     }

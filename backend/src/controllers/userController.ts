@@ -16,7 +16,7 @@ export const loginUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado.' });
+      return res.status(404).json({ error: 'Credenciales incorrectas.' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
@@ -51,7 +51,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     // Genera un UUID único para el ID del usuario
     const userId = uuidv4();
-    console.log("Contraseña recibida:", password);
+    
     const salt = await bcrypt.genSalt(10); // Genera un salt para el hash
     const hashedPassword = await bcrypt.hash(password, salt); // Genera el hash de la contraseña
 
@@ -72,7 +72,26 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(newUser);
 
   } catch (error) {
-    console.error('Error al crear usuario:', error);
     res.status(500).json({ error: 'Error en el servidor.' });
+  }
+};
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+      // Realiza la consulta seleccionando solo los campos deseados
+      const users = await prisma.usuarios.findMany({
+          select: {
+              id: true,
+              name: true,
+              surname: true,
+              email: true,
+              phone: true,
+              type: true
+          }
+      });
+      res.json(users);
+  } catch (error) {
+      console.error('Error al obtener usuarios:', error);
+      res.status(500).json({ error: 'Error en el servidor.' });
   }
 };

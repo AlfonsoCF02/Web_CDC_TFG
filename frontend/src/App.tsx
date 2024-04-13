@@ -5,6 +5,7 @@ import LoginPage from './pages/login/LoginPage';
 import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
 import ResetPasswordPage from './pages/login/ResetPasswordPage';
 import RegisterPage from './pages/register/RegisterPage';
+import ManageUsersPage from './pages/admin/manageUsers';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import { AuthProvider } from './AuthProvider';
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/registro" element={<RegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/manage-users" element={<ManageUsersPage />} />
         </Routes>
         <Footer />
       </AuthProvider>

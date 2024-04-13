@@ -32,9 +32,9 @@ const Header: React.FC = () => {
                   {/* Botón de logout */}
                   <button type="button" className="btn btn-outline-primary mb-2 mb-lg-0" onClick={logout}>Logout</button>
                   {/* Desplegable de perfil para usuarios logueados */}
-                  {user.type === 'user' || user.type === 'admin' && (
-                    <div className="dropdown ms-2">
-                      <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  {(user.type === 'user' || user.type === 'admin') && (
+                    <div className="dropdown ms-2 me-2">
+                      <button className="btn btn-primary dropdown-toggle mb-2 mb-lg-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         Perfil
                       </button>
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -47,12 +47,12 @@ const Header: React.FC = () => {
                   )}
                   {/* Botón de zona administrador para usuarios admin */}
                   {user.type === 'admin' && (
-                    <div className="dropdown ms-2">
+                    <div className="dropdown">
                     <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                       Zona Administrador
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a className="dropdown-item" href="#">Administrar Usuarios</a></li>
+                      <li><a className="dropdown-item" href="/manage-users">Administrar Usuarios</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Pedidos</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Reservas</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Productos</a></li>

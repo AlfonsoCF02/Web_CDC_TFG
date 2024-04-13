@@ -49,20 +49,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //Buscamos si el usuario tiene un token guardado en el local (no ha hecho logout)
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      // Decodificar el token para obtener los datos del usuario
-      const decodedToken = jwtDecode(token) as { userId: string, email: string, name: string, surname: string, phone: number, type: string };;
-      // Establecer el usuario con los datos obtenidos del token
-      const userData: User = {
-        id: decodedToken.userId,
-        email: decodedToken.email,
-        name: decodedToken.name,
-        surname: decodedToken.surname,
-        phone: decodedToken.phone,
-        type: decodedToken.type
-      };
-      setUser(userData);
-    }
+      try {
+        if (token) {
+          // Decodificar el token para obtener los datos del usuario
+          const decodedToken = jwtDecode(token) as { userId: string, email: string, name: string, surname: string, phone: number, type: string };;
+          // Establecer el usuario con los datos obtenidos del token
+          const userData: User = {
+            id: decodedToken.userId,
+            email: decodedToken.email,
+            name: decodedToken.name,
+            surname: decodedToken.surname,
+            phone: decodedToken.phone,
+            type: decodedToken.type
+          };
+          setUser(userData);
+        }
+      } catch (error) {
+        //console.log('Token no valido:', error);
+      }
+
   }, []);
 
 
