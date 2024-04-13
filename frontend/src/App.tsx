@@ -8,6 +8,8 @@ import RegisterPage from './pages/register/RegisterPage';
 import ManageUsersPage from './pages/admin/manageUsers';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import EditUserPage from './pages/user/modifyUserPage';
+import ProfilePage from './pages/profilePage';
 import { AuthProvider } from './AuthProvider';
 
 const App = () => {
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/manage-users" element={<ManageUsersPage />} />
+          <Route path="/edit-user/:id" element={<EditUserPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
         <Footer />
       </AuthProvider>

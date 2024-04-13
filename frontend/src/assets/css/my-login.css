@@ -136,3 +136,22 @@ body.my-login-page {
 		padding: 15px;
 	}
 }
+
+/* Centrar texto en el último th de cada fila */
+.table thead th:last-child {
+	text-align: center;
+  }
+
+/* Ocultar el texto actual dentro del label */
+.paginationOpts__root .form-label {
+	font-size: 0; /* Hace que el texto original sea invisible */
+	visibility: hidden; /* O puedes intentar hacer el texto original completamente invisible */
+  }
+  
+/* Insertar el nuevo texto con el pseudo-elemento ::after */
+.paginationOpts__root .form-label::after {
+	content: 'Filas por página'; /* Inserta el texto que quieres mostrar */
+	font-size: medium; /* Restablece el tamaño de fuente */
+	visibility: visible; /* Hace que el nuevo texto sea visible */
+}
+

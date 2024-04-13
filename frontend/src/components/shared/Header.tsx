@@ -38,10 +38,11 @@ const Header: React.FC = () => {
                         Perfil
                       </button>
                       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a className="dropdown-item" href="#">Mi perfil</a></li>
+                        <li><a className="dropdown-item" href="/profile">Mi perfil</a></li>
                         <li><a className="dropdown-item" href="#">Mis Pedidos</a></li>
                         <li><a className="dropdown-item" href="#">Mis Reservas</a></li>
-                        <li><a className="dropdown-item" href="#">Cambiar Contraseña</a></li>
+                        <li><a className="dropdown-item" href={`/edit-user/${user.id}`}>Modificar Usuario</a></li>
+                        <li><a className="dropdown-item" href="">Cambiar Contraseña</a></li>
                       </ul>
                     </div>
                   )}
@@ -56,7 +57,7 @@ const Header: React.FC = () => {
                       <li><a className="dropdown-item" href="#">Administrar Pedidos</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Reservas</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Productos</a></li>
-                      <li><a className="dropdown-item" href="#">Administrar Clases</a></li>
+                      <li><a className="dropdown-item" href="#">Administrar Categorías</a></li>
                     </ul>
                   </div>
                   )}

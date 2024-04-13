@@ -28,7 +28,7 @@ export const loginUser = async (req: Request, res: Response) => {
       { userId: user.id, email: user.email, type: user.type, 
         name: user.name, surname: user.surname, phone: user.phone}, 
       process.env.JWT_SECRET, 
-      { expiresIn: '1h' }
+      { expiresIn: '48h' }
     );
 
     res.json({ token });
@@ -93,5 +93,98 @@ export const getAllUsers = async (req: Request, res: Response) => {
   } catch (error) {
       console.error('Error al obtener usuarios:', error);
       res.status(500).json({ error: 'Error en el servidor.' });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+
+  try {
+    // Intenta eliminar el usuario utilizando el ID
+    const user = await prisma.usuarios.delete({
+      where: {
+        id: userId
+      },
+    });
+
+    // Si la eliminación es exitosa, envía una respuesta adecuada
+    res.status(200).json({ message: 'Usuario eliminado correctamente.', user: user });
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error);
+
+    // Prisma arroja un error P2025 si intenta eliminar un usuario que no existe
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'No se encontró el usuario.' });
+    }
+
+    // Envía una respuesta de error genérica
+    res.status(500).json({ error: 'Error en el servidor.' });
+  }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+
+  try {
+      const user = await prisma.usuarios.findUnique({
+          where: {
+              id: userId
+          },
+          select: {
+              id: true,
+              name: true,
+              surname: true,
+              email: true,
+              phone: true,
+              type: true
+              // No incluir el password
+          }
+      });
+
+      if (user) {
+          res.json(user);
+      } else {
+          res.status(404).json({ message: "Usuario no encontrado" });
+      }
+  } catch (error) {
+      console.error('Error al obtener los detalles del usuario:', error);
+      res.status(500).json({ error: 'Error en el servidor.' });
+  }
+};
+
+
+
+export const updateUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const { name, surname, email, phone, password, type } = req.body; // Asume que estos campos están siendo enviados desde el formulario
+
+  try {
+    let hashedPassword = password;
+
+    // Verificamos si se proporcionó una nueva contraseña
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(password, salt);
+    }
+
+    // Actualizamos el usuario en la base de datos con la contraseña encriptada
+    const user = await prisma.usuarios.update({
+      where: { id: userId },
+      data: {
+        name,
+        surname,
+        email,
+        phone: parseInt(phone),
+        password: hashedPassword, // Usamos la contraseña encriptada
+        type
+      }
+    });
+
+    // Enviamos la respuesta JSON con el usuario actualizado
+    res.json({ message: 'Usuario actualizado correctamente', user });
+  } catch (error) {
+    // Manejamos los errores
+    console.error('Error al actualizar el usuario:', error);
+    res.status(500).json({ error: 'Error en el servidor.' });
   }
 };
