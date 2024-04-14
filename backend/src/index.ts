@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import userRouter from './routes/userRouter';
+import categoryRouter from './routes/categoryRouter';
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.json());
 
 // Rutas de usuario
 app.use('/api/user', userRouter);
+app.use('/api/category', categoryRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -10,6 +10,8 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EditUserPage from './pages/user/modifyUserPage';
 import ProfilePage from './pages/profilePage';
+import ManageCategories from './pages/admin/manageCategories';
+
 import { AuthProvider } from './AuthProvider';
 
 const App = () => {
@@ -27,6 +29,7 @@ const App = () => {
           <Route path="/manage-users" element={<ManageUsersPage />} />
           <Route path="/edit-user/:id" element={<EditUserPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/manage-categories" element={<ManageCategories />} />
         </Routes>
         <Footer />
       </AuthProvider>

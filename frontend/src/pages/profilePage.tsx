@@ -1,7 +1,5 @@
 import React from 'react';
 import { useAuth } from '../AuthProvider';
-import { Card } from 'react-bootstrap';
-import { BiUser, BiIdCard, BiEnvelope, BiLock, BiPhone } from 'react-icons/bi'; // Importación de más iconos
 
 const ProfileView: React.FC = () => {
   const { user } = useAuth();
@@ -13,35 +11,35 @@ const ProfileView: React.FC = () => {
   const { id, name, surname, email, type, phone } = user;
 
   return (
-    <div className="container mt-3" style={{ maxWidth: '600px' }}> {/* Contenedor más pequeño */}
-      <div className="text-center mb-4">
-        <BiUser style={{ fontSize: '5rem', color: '#007bff' }} />
+    <div className="container mt-2" style={{ maxWidth: '600px' }}>
+      <div className="text-center mb-2">
+        <i className="bi bi-person-circle" style={{ fontSize: '4rem', color: '#007bff' }}></i>
       </div>
-      <Card>
-        <Card.Body>
-          <Card.Title className="text-center mb-4">Perfil de Usuario</Card.Title>
+      <div className="card">
+        <div className="card-body">
+          <h4 className="card-title text-center mb-4">Perfil de Usuario</h4>
           <ul className="list-group list-group-flush">
             <li className="list-group-item d-flex align-items-center">
-              <BiIdCard className="me-2" /><strong>ID:&nbsp;</strong>{id}
+              <i className="bi bi-card-list me-2"></i><strong>ID:&nbsp;</strong>{id}
             </li>
             <li className="list-group-item d-flex align-items-center">
-              <BiUser className="me-2" /><strong>Nombre:&nbsp;</strong>{name}&nbsp;{surname}
+              <i className="bi bi-person me-2"></i><strong>Nombre:&nbsp;</strong>{name}&nbsp;{surname}
             </li>
             <li className="list-group-item d-flex align-items-center">
-              <BiEnvelope className="me-2" /><strong>Email:&nbsp;</strong>{email}
+              <i className="bi bi-envelope me-2"></i><strong>Email:&nbsp;</strong>{email}
             </li>
             <li className="list-group-item d-flex align-items-center">
-              <BiLock className="me-2" /><strong>Tipo:&nbsp;</strong>{type}
+              <i className="bi bi-telephone me-2"></i><strong>Teléfono:&nbsp;</strong>{phone}
             </li>
             <li className="list-group-item d-flex align-items-center">
-              <BiPhone className="me-2" /><strong>Teléfono:&nbsp;</strong>{phone}
+              <i className="bi bi-lock me-2"></i><strong>Tipo:&nbsp;</strong>{type}
             </li>
           </ul>
-          <div className="text-center mt-4">
+          <div className="text-center mt-3">
             <a href={`/edit-user/${id}`} className="btn btn-primary">Editar</a>
           </div>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
