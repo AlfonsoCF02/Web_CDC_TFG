@@ -14,7 +14,11 @@ const ManageCategories = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<Category>({ id: '', categoria: '' });
-
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [categoryTouched, setCategoryTouched] = useState(false);
+  const [categoryError, setCategoryError] = useState('');
+  
   const fetchCategorias = async () => {
     setIsLoading(true);
     try {
@@ -112,21 +116,33 @@ const ManageCategories = () => {
     setShowDeleteModal(true);
   };
 
-const saveChanges = async () => {
-  if (currentCategory && currentCategory.id) {
-    try {
-      await axios.put(`${baseUrl}/api/category/update/${currentCategory.id}`, {
-        categoria: currentCategory.categoria
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      setShowEditModal(false);
-      refreshData(); 
-    } catch (error) {
-      console.error('Error updating category:', error);
+  const saveChanges = async () => {
+    if (currentCategory && currentCategory.id) {
+      // Resetea el estado de error antes de validar de nuevo
+      setCategoryTouched(true);
+      validateCategory(currentCategory.categoria);
+
+      if (currentCategory.categoria) {
+        try {
+          const response = await axios.put(`${baseUrl}/api/category/update/${currentCategory.id}`, {
+            categoria: currentCategory.categoria
+          }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          });
+          setShowEditModal(false);
+          refreshData(); 
+        } catch (error:any) {
+          if (error.response && error.response.status === 409) {
+            setCategoryError('Ya existe otra categoría con ese nombre.');
+          } else {
+            console.error('Error updating category:', error);
+            setCategoryError('Error al actualizar la categoría. Intente nuevamente.');
+          }
+        }
+      }
     }
-  }
-};
+  };
+  
 
 const confirmDelete = async () => {
   if (currentCategory && currentCategory.id) {
@@ -142,6 +158,49 @@ const confirmDelete = async () => {
   }
 };
 
+const handleCreateCategory = async () => {
+  setCategoryTouched(true);
+  validateCategory(newCategoryName);
+  if (newCategoryName && !categoryError) {
+    try {
+      const response = await axios.post(`${baseUrl}/api/category/create`, {
+        categoria: newCategoryName
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      closeAndResetModal();
+      fetchCategorias();
+    } catch (error:any) {
+      if (error.response && error.response.status === 409) {
+        setCategoryError('La categoría ya existe.'); // Manejar el error específico de categoría duplicada
+      } else {
+        setCategoryError('Error al crear la categoría. Intente nuevamente.');
+      }
+    }
+  }
+};
+
+
+const validateCategory = (name: string) => {
+  if (!name.trim()) {
+    setCategoryError('Por favor, introduce un nombre para la categoría.');
+  } else {
+    setCategoryError('');
+  }
+};
+
+const closeAndResetModal = () => {
+  setShowCreateModal(false);
+  setNewCategoryName('');
+  setCategoryError('');
+  setCategoryTouched(false);
+};
+
+const getInputClass = () => {
+  if (!categoryTouched) return 'form-control';
+  return `form-control ${categoryError ? 'is-invalid' : 'is-valid'}`;
+};
+
   const refreshData = () => {
     setIsLoading(true);
     fetchCategorias(); 
@@ -150,11 +209,17 @@ const confirmDelete = async () => {
   return (
     <div className="container mt-3">
       <h2 className="text-center text-decoration-underline mb-4">Gestor de Categorías</h2>
+      <div className="d-flex justify-content-center mb-4">
+        <Button variant="success" onClick={() => setShowCreateModal(true)}>Crear Categoría</Button>
+      </div>
       <div className="table-container shadow-sm p-3 mb-5 bg-white rounded">
         <table id="categoriasTable" className="table table-striped table-hover" style={{ width: "100%" }}></table>
       </div>
       {/* Modales aquí */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
+      <Modal show={showEditModal} onHide={() => {
+        setShowEditModal(false);
+        setCategoryError(''); // Limpiar el error al cerrar el modal
+      }} centered>
         <Modal.Header closeButton>
           <Modal.Title>Editar Categoría</Modal.Title>
         </Modal.Header>
@@ -163,6 +228,7 @@ const confirmDelete = async () => {
             <div className="mb-3">
               <label htmlFor="categoria" className="form-label">Nombre de la Categoría</label>
               <input type="text" className="form-control" id="categoria" value={currentCategory.categoria} onChange={(e) => setCurrentCategory({...currentCategory, categoria: e.target.value})} />
+              {categoryError && <div className="invalid-feedback d-block">{categoryError}</div>}
             </div>
           </form>
         </Modal.Body>
@@ -170,7 +236,7 @@ const confirmDelete = async () => {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>Cerrar</Button>
           <Button variant="primary" onClick={saveChanges}>Guardar Cambios</Button>
         </Modal.Footer>
-      </Modal>
+      </Modal>;
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Eliminar Categoría</Modal.Title>
@@ -181,6 +247,31 @@ const confirmDelete = async () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
           <Button variant="danger" onClick={() => confirmDelete()}>Eliminar</Button>
+        </Modal.Footer>
+      </Modal>
+      {/* Modal para crear categoría */}
+      <Modal show={showCreateModal} onHide={closeAndResetModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Crear Nueva Categoría</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2">Introduce el nombre de la nueva categoría:</p>
+          <input 
+            type="text" 
+            className={getInputClass()}
+            value={newCategoryName} 
+            onChange={(e) => {
+              setNewCategoryName(e.target.value);
+              setCategoryTouched(true);
+              validateCategory(e.target.value);
+            }} 
+            onBlur={() => setCategoryTouched(true)}
+          />
+          {categoryError && <div className="invalid-feedback d-block">{categoryError}</div>}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeAndResetModal}>Cerrar</Button>
+          <Button variant="primary" onClick={handleCreateCategory}>Crear</Button>
         </Modal.Footer>
       </Modal>
       {/* Botones ocultos para disparar modales */}
