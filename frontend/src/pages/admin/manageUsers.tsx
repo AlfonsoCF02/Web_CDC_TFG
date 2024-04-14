@@ -1,70 +1,107 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DatatableWrapper, Filter, Pagination, PaginationOptions, TableBody, TableHeader, TableColumnType } from 'react-bs-datatable';
-import { Col, Row, Table, Button, Modal, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirecciones
-import { useAuth } from '../../AuthProvider';
+import { Modal, Button, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { baseUrl } from "../../config";
 
 interface User {
-  id: any;
+  id: string;
   name: string;
   surname: string;
   email: string;
   phone: string;
   type: string;
-  actions: JSX.Element;
 }
 
-const ManageUsers: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+const ManageUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<User | null>(null);
-  const { token } = useAuth();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const navigate = useNavigate();
-
-  const headers: TableColumnType<User>[] = [
-    { prop: 'name', title: 'Nombre', isFilterable: true, isSortable: true },
-    { prop: 'surname', title: 'Apellidos', isSortable: true, isFilterable: true },
-    { prop: 'email', title: 'Email', isSortable: true, isFilterable: true },
-    { prop: 'phone', title: 'Teléfono', isSortable: true, isFilterable: true },
-    { prop: 'type', title: 'Rol', isSortable: true, isFilterable: true },
-    {
-      prop: 'actions',
-      title: 'Acciones',
-      cell: (row: User) => (
-        <div className="text-center">
-          <Button variant="primary me-2" size="sm" onClick={() => navigate(`/edit-user/${row.id}`, { state: { email: row.email } })}>Editar</Button>
-          <Button variant="danger" size="sm" onClick={() => { setUserToDelete(row); setShowDeleteModal(true); }}>Eliminar</Button>
-        </div>
-      ),
-    },
-  ];
 
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/api/user/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      // Aquí, transforma los datos si es necesario para que coincidan con tu estructura de `User`.
-      setUsers(response.data.map((user: any) => ({
-        ...user,
-        actions: "Defined in headers" // Las acciones se manejan en la definición de headers.
-      })));
+      setUsers(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching users:', error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchUsers();
-  }, [token]);
+  }, []);
 
+  useEffect(() => {
+    if (!isLoading) {
+      $('#usersTable').DataTable({
+        data: users.map(user => ({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          phone: user.phone,
+          type: user.type,
+          actions: `<div class="text-center">
+                      <button class="btn btn-primary btn-sm me-2" onclick="document.getElementById('edit-button-${user.id}').click()">Editar</button>
+                      <button class="btn btn-danger btn-sm" onclick="document.getElementById('delete-button-${user.id}').click()">Eliminar</button>
+                    </div>`
+        })),
+        destroy: true,
+        columns: [
+          { title: "Name", data: "name" },
+          { title: "Surname", data: "surname" },
+          { title: "Email", data: "email" },
+          { title: "Phone", data: "phone" },
+          { title: "Tipo", data: "type" },
+          { title: "Actions", data: "actions" }
+        ],
+        lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-md-4'i><'col-md-4 text-center'B><'col-md-4'p>>",
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: 'Exportar a Excel',
+            title: 'Usuarios de Cárnicas Dehesa Chaparral',
+            className: 'btn btn-success'
+          },
+          {
+            extend: 'pdfHtml5',
+            text: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            orientation: 'landscape',
+            title: 'Usuarios de Cárnicas Dehesa Chaparral',
+            pageSize: 'A4'
+          }
+        ],
+        language: {
+          processing: "Procesando...",
+          lengthMenu: "Mostrar _MENU_ registros por página",
+          zeroRecords: "No se encontraron resultados",
+          emptyTable: "No hay datos disponibles en la tabla",
+          info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+          infoEmpty: "Mostrando 0 a 0 de 0 registros",
+          infoFiltered: "(filtrado de _MAX_ registros totales)",
+          search: "Buscar:",
+        }
+      });
+    }
+    styleDataTablesElements();
+  }, [isLoading, users]);
+
+  const styleDataTablesElements = () => {
+    // Alinear la información de la paginación al centro
+    $('.dataTables_info').parent().removeClass('col-md-4').addClass('col-md-4 text-center');
+    $('.dt-buttons').parent().removeClass('col-md-4').addClass('col-md-4 text-center mt-3');
+    $('.pagination').parent().removeClass('col-md-4').addClass('d-flex ms-auto justify-content-center justify-content-md-end mt-3 ');
+  };
 
   if (isLoading) {
     return (
@@ -76,47 +113,49 @@ const ManageUsers: React.FC = () => {
     );
   }
 
-  const handleDeleteUser = async () => {
-    if (userToDelete) {
+  const handleDeleteUser = async (id: string) => {
+    if (id) {
       try {
-        await axios.delete(`${baseUrl}/api/user/delete/${userToDelete.id}`, {
+        await axios.delete(`${baseUrl}/api/user/delete/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
-        setShowDeleteModal(false);
-        fetchUsers(); // Refresca la lista de usuarios después de eliminar
+        setShowDeleteModal(false);  // Cierra el modal de confirmación
+        fetchUsers();  // Actualiza la lista de usuarios tras eliminar uno
       } catch (error) {
-        //console.error('Error deleting user:', error);
+        console.error('Error deleting user:', error);
+        // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
       }
     }
   };
+  
 
   return (
     <div className="container mt-3">
       <h2 className="text-center text-decoration-underline mb-4">Gestor de Usuarios</h2>
       <div className="table-container shadow-sm p-3 mb-5 bg-white rounded">
-        <DatatableWrapper body={users} headers={headers} paginationOptionsProps={{ initialState: { rowsPerPage: 5, options: [5, 10, 25, 50, 100] }}}>
-          <Row className="mb-3 align-items-center justify-content-between">
-            <Col xs={3} sm={2} md={2}><PaginationOptions /></Col>
-            <Col xs={12} sm={6} md={4}>
-              <Row><Col xs={12} className="mt-4"><div className="mt-2"><Filter placeholder="Filtrar resultados..." /></div></Col></Row>
-            </Col>
-          </Row>
-          <Table striped hover responsive><TableHeader /><TableBody /></Table>
-          <Row><Col xs={12} className="d-flex justify-content-end"><Pagination /></Col></Row>
-        </DatatableWrapper>
+        <table id="usersTable" className="table table-striped table-hover" style={{ width: "100%" }}></table>
       </div>
-
-      {/* Modal de confirmación para eliminar usuario */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmar eliminación</Modal.Title>
+          <Modal.Title>Eliminar Usuario</Modal.Title>
         </Modal.Header>
-        <Modal.Body>¿Seguro que desea eliminar a este usuario?</Modal.Body>
+        <Modal.Body>
+          ¿Estás seguro de que deseas eliminar al usuario {currentUser?.name}?
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="light" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
-          <Button variant="danger" onClick={handleDeleteUser}>Eliminar</Button>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
+          <Button variant="danger" onClick={() => currentUser && handleDeleteUser(currentUser.id)}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
+      {users.map(user => (
+        <React.Fragment key={user.id}>
+          <button id={`edit-button-${user.id}`} style={{ display: 'none' }} onClick={() => navigate(`/edit-user/${user.id}`)}></button>
+          <button id={`delete-button-${user.id}`} style={{ display: 'none' }} onClick={() => {
+            setCurrentUser(user);
+            setShowDeleteModal(true);
+          }}></button>
+        </React.Fragment>
+      ))}
     </div>
   );
 };
