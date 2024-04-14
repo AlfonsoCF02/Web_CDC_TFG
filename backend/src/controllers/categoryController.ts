@@ -22,3 +22,38 @@ export const getAllCategories = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error en el servidor.' });
   }
 };
+
+export const updateCategory = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { categoria } = req.body;
+    const updatedCategory = await prisma.categorias.update({
+      where: {
+        id
+      },
+      data: {
+        categoria
+      }
+    });
+    res.json(updatedCategory);
+  } catch (error) {
+    console.error('Error al actualizar categoría:', error);
+    res.status(404).json({ error: 'Categoría no encontrada.' });
+  }
+};
+
+
+export const deleteCategory = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.categorias.delete({
+      where: {
+        id
+      }
+    });
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error al eliminar categoría:', error);
+    res.status(404).json({ error: 'Categoría no encontrada.' });
+  }
+};
