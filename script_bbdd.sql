@@ -83,7 +83,8 @@ CREATE TABLE `direcciones` (
 CREATE TABLE `categorias` (
   `id` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `categoria` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `categoria` (`categoria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='TABLA DE CATEGORIAS';
 
 

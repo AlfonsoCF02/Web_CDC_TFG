@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                       <li><a className="dropdown-item" href="/manage-users">Administrar Usuarios</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Pedidos</a></li>
                       <li><a className="dropdown-item" href="#">Administrar Reservas</a></li>
-                      <li><a className="dropdown-item" href="#">Administrar Productos</a></li>
+                      <li><a className="dropdown-item" href="/manage-products">Administrar Productos</a></li>
                       <li><a className="dropdown-item" href="/manage-categories">Administrar Categorías</a></li>
                     </ul>
                   </div>

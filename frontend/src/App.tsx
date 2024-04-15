@@ -11,6 +11,9 @@ import AboutPage from './pages/AboutPage';
 import EditUserPage from './pages/user/modifyUserPage';
 import ProfilePage from './pages/profilePage';
 import ManageCategories from './pages/admin/manageCategories';
+import ManageProductos from './pages/admin/products/manageProducts';
+import CreateProduct from './pages/admin/products/createProduct';
+import EditProduct from './pages/admin/products/editProduct';
 
 import { AuthProvider } from './AuthProvider';
 
@@ -30,6 +33,9 @@ const App = () => {
           <Route path="/edit-user/:id" element={<EditUserPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/manage-categories" element={<ManageCategories />} />
+          <Route path="/manage-products" element={<ManageProductos />} />
+          <Route path="/create-product" element={<CreateProduct />} />
+          <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>
         <Footer />
       </AuthProvider>

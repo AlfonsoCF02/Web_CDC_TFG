@@ -125,7 +125,7 @@ const EditUserPage: React.FC = () => {
     }
   
     // Continuar con el envío del formulario si todos los campos son válidos
-  
+
     // Verificamos si el campo de contraseña está vacío o es indefinido
     if (!user.password || user.password.trim() === '') {
       // Si está vacío o es indefinido, eliminamos el campo de contraseña del objeto user para evitar cambios
@@ -134,8 +134,14 @@ const EditUserPage: React.FC = () => {
         await axios.put(`${baseUrl}/api/user/update/${id}`, userDataWithoutPassword, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
+          if(currentUser && currentUser.type === 'admin' && currentUser.id != user.id){
+            navigate('/manage-users');
+          }else{
+            navigate(`/profile`);
+          }
       } catch (error) {
         console.error('Error updating user:', error);
+        alert('El usuario ya existe.')
       }
     } else {
       // Si no está vacío, procedemos con la validación y el envío del formulario
@@ -143,15 +149,15 @@ const EditUserPage: React.FC = () => {
         await axios.put(`${baseUrl}/api/user/update/${id}`, user, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
+        if(currentUser && currentUser.type === 'admin' && currentUser.id != user.id){
+            navigate('/manage-users');
+        }else{
+            navigate(`/profile`);
+        }
       } catch (error) {
         console.error('Error updating user:', error);
+        alert('El usuario ya existe.')
       }
-    }
-    
-    if(currentUser && currentUser.type === 'admin'){
-        navigate('/manage-users');
-    }else{
-        navigate(`/profile`);
     }
 
   };

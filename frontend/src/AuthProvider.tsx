@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 
 /******************************************
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   //Buscamos si el usuario tiene un token guardado en el local (no ha hecho logout)
   useEffect(() => {
@@ -91,6 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('token');
+    navigate('/', { replace: true });
   };
 
 

@@ -156,9 +156,19 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
-  const { name, surname, email, phone, password, type } = req.body; // Asume que estos campos están siendo enviados desde el formulario
+  const { name, surname, email, phone, password, type } = req.body;
 
   try {
+    // Verificamos si el correo electrónico ya está en uso por otro usuario
+    const existingUser = await prisma.usuarios.findUnique({
+      where: { email },
+    });
+
+    if (existingUser && existingUser.id !== userId) {
+      // Si el correo electrónico ya está en uso y no pertenece al usuario que está siendo actualizado
+      return res.status(409).json({ error: 'El correo electrónico ya está en uso.' });
+    }
+
     let hashedPassword = password;
 
     // Verificamos si se proporcionó una nueva contraseña
@@ -175,7 +185,7 @@ export const updateUser = async (req: Request, res: Response) => {
         surname,
         email,
         phone: parseInt(phone),
-        password: hashedPassword, // Usamos la contraseña encriptada
+        password: hashedPassword,
         type
       }
     });
