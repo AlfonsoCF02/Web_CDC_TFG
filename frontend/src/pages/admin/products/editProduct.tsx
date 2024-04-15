@@ -150,8 +150,8 @@ const EditProduct = () => {
         <div className="w-50 pe-3">
           <form noValidate onSubmit={handleSubmit}>
             {/* Campos del formulario */}
-            <div className="mb-3">
-              <label htmlFor="name">Nombre</label>
+            <div className="mb-2">
+              <label htmlFor="name" className="form-label mb-2">Nombre</label>
               <input
                 id="name"
                 type="text"
@@ -161,8 +161,8 @@ const EditProduct = () => {
               />
               {errors.name && touched.name && <div className="invalid-feedback">{errors.name}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="categoryID">Categoría</label>
+            <div className="mb-2">
+              <label htmlFor="categoryID" className="form-label mb-2">Categoría</label>
               <select
                 id="categoryID"
                 className={`form-control ${errors.categoryID && touched.categoryID ? 'is-invalid' : ''}`}
@@ -176,8 +176,8 @@ const EditProduct = () => {
               </select>
               {errors.categoryID && touched.categoryID && <div className="invalid-feedback">{errors.categoryID}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="price">Precio (euros)</label>
+            <div className="mb-2">
+              <label htmlFor="price" className="form-label mb-2">Precio (euros)</label>
               <input
                 id="price"
                 type="text"
@@ -187,9 +187,9 @@ const EditProduct = () => {
               />
               {errors.price && touched.price && <div className="invalid-feedback">{errors.price}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="stock">Stock (uds.)</label
-                ><input
+            <div className="mb-2">
+              <label htmlFor="stock" className="form-label mb-2">Stock (uds.)</label>
+              <input
                 id="stock"
                 type="text"
                 className={`form-control ${errors.stock && touched.stock ? 'is-invalid' : ''}`}
@@ -198,8 +198,8 @@ const EditProduct = () => {
               />
               {errors.stock && touched.stock && <div className="invalid-feedback">{errors.stock}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="imageURL">URL de la Imagen</label>
+            <div className="mb-2">
+              <label htmlFor="imageURL" className="form-label mb-2">URL de la Imagen</label>
               <input
                 id="imageURL"
                 type="text"
@@ -214,7 +214,7 @@ const EditProduct = () => {
             </div>
           </form>
         </div>
-        <div className="w-50 ps-3 d-flex flex-column justify-content-center align-items-center">
+        <div className="col-md-6">
           <div className="text-center mb-3">
             <h4>Previsualización de la Imagen</h4>
             <img src={product.imageURL ? product.imageURL : imgNotFound} alt="Preview" className="img-fluid" style={{ maxHeight: '300px', maxWidth: '100%' }} />

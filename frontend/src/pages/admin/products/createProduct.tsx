@@ -162,8 +162,8 @@ const CreateProduct = () => {
         <div className="w-50 pe-3">
           <form noValidate onSubmit={handleSubmit}>
             {/* Campos del formulario */}
-            <div className="mb-3">
-              <label htmlFor="name">Nombre</label>
+            <div className="mb-2">
+              <label htmlFor="name" className="form-label mb-2">Nombre</label>
               <input
                 id="name"
                 type="text"
@@ -173,8 +173,8 @@ const CreateProduct = () => {
               />
               {errors.name && <div className="invalid-feedback">{errors.name}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="categoryId">Categoría</label>
+            <div className="mb-2">
+              <label htmlFor="categoryId" className="form-label mb-2">Categoría</label>
               <select
                 id="categoryId"
                 className={getInputClass('categoryId')}
@@ -188,8 +188,8 @@ const CreateProduct = () => {
               </select>
               {errors.categoryId && <div className="invalid-feedback">{errors.categoryId}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="price">Precio (euros)</label>
+            <div className="mb-2">
+              <label htmlFor="price" className="form-label mb-2">Precio (euros)</label>
               <input
                 id="price"
                 type="text"
@@ -199,8 +199,8 @@ const CreateProduct = () => {
               />
               {errors.price && <div className="invalid-feedback">{errors.price}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="stock">Stock (uds.)</label>
+            <div className="mb-2">
+              <label htmlFor="stock" className="form-label mb-2">Stock (uds.)</label>
               <input
                 id="stock"
                 type="text"
@@ -210,8 +210,8 @@ const CreateProduct = () => {
               />
               {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="imageUrl">URL de la Imagen</label>
+            <div className="mb-2">
+              <label htmlFor="imageUrl" className="form-label mb-2">URL de la Imagen</label>
               <input
                 id="imageUrl"
                 type="text"
