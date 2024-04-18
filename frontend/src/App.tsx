@@ -9,11 +9,14 @@ import ManageUsersPage from './pages/admin/manageUsers';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EditUserPage from './pages/user/modifyUserPage';
-import ProfilePage from './pages/profilePage';
+import ProfilePage from './pages/user/profilePage';
 import ManageCategories from './pages/admin/manageCategories';
 import ManageProductos from './pages/admin/products/manageProducts';
 import CreateProduct from './pages/admin/products/createProduct';
 import EditProduct from './pages/admin/products/editProduct';
+import CataloguePage from './pages/user/cataloguePage';
+import BasketPage from './pages/user/basketPage';
+import PaymentPage from './pages/user/paymentPage';
 
 import { AuthProvider } from './AuthProvider';
 
@@ -36,6 +39,9 @@ const App = () => {
           <Route path="/manage-products" element={<ManageProductos />} />
           <Route path="/create-product" element={<CreateProduct />} />
           <Route path="/edit-product/:id" element={<EditProduct />} />
+          <Route path="/catalogue" element={<CataloguePage />} />
+          <Route path="/basket" element={<BasketPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
         <Footer />
       </AuthProvider>

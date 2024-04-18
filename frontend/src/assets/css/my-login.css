@@ -155,3 +155,22 @@ body.my-login-page {
 	visibility: visible; /* Hace que el nuevo texto sea visible */
 }
 
+/* En tu archivo de estilos CSS */
+
+.producto-card {
+  height: 100%;
+}
+
+.producto-imagen {
+  height: 340px; /* Ajusta la altura de la imagen */
+  width: 100%; /* Ajusta el ancho de la imagen para que se ajuste al contenedor */
+  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin distorsionarla */
+}
+
+.producto-titulo {
+  font-size: 1.25rem;
+}
+
+.producto-precio {
+  font-size: 1rem;
+}

@@ -165,3 +165,15 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ error: 'Error en el servidor' });
   }
 };
+
+export const getAllProductsCatalogue = async (req, res) => {
+  try {
+    // Realiza la consulta para obtener todos los productos
+    const productos = await prisma.productos.findMany();
+
+    res.json(productos);
+  } catch (error) {
+    console.error('Error al obtener los productos:', error);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+};

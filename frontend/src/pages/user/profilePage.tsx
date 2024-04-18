@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../AuthProvider';
+import { useAuth } from '../../AuthProvider';
 
 const ProfileView: React.FC = () => {
   const { user } = useAuth();

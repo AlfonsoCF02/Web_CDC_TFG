@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/images/logo_cdc.png';
 import { useAuth } from '../../AuthProvider';
 
@@ -18,10 +18,10 @@ const Header: React.FC = () => {
           {/* Home */}
           <ul className="nav col-12 col-lg-auto justify-content-center justify-content-lg-start mb-2 mb-lg-0 me-lg-auto">
             <li><a href="/" className="nav-link px-2 text-secondary">Home</a></li>
-            <li><a href="#" className="nav-link px-2">Catálogo</a></li>
+            <li><a href="/catalogue" className="nav-link px-2">Catálogo</a></li>
             <li><a href="#" className="nav-link px-2">Reservas</a></li>
-            <li><a href="#" className="nav-link px-2">Productos</a></li>
-            <li><a href="/about" className="nav-link px-2">About</a></li>
+            <li><a href="/catalogue" className="nav-link px-2">Productos</a></li>
+            <li><a href="/#quienes-somos" className="nav-link px-2">About</a></li>
           </ul>
           {/* Contenedor de botones de Login y Registro / logout / funcionalidades */}
           <div className="nav col-12 col-lg-auto justify-content-center justify-content-lg-start mb-2 mb-lg-0 align-items-center text-center">
@@ -71,9 +71,9 @@ const Header: React.FC = () => {
               )}
             </div>
             {/* Icono de la cesta */}
-            <a href="#" className="text-dark text-decoration-none ms-lg-5 d-inline-block d-lg-flex" aria-label="Ir a la cesta de la compra">
-              <i className="bi bi-cart4 fs-4"></i>
-            </a>
+            <Link to="/basket" className="text-dark text-decoration-none ms-lg-5 d-inline-block d-lg-flex" aria-label="Ir a la cesta de la compra">
+                <i className="bi bi-cart4 fs-4"></i>
+            </Link>
           </div>
         </div>
       </header>

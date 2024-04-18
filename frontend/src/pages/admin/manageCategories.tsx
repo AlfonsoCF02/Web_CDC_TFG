@@ -236,7 +236,7 @@ const getInputClass = () => {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>Cerrar</Button>
           <Button variant="primary" onClick={saveChanges}>Guardar Cambios</Button>
         </Modal.Footer>
-      </Modal>;
+      </Modal>
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Eliminar Categoría</Modal.Title>

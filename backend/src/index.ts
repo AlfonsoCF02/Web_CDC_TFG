@@ -3,6 +3,7 @@ import cors from 'cors';
 import userRouter from './routes/userRouter';
 import categoryRouter from './routes/categoryRouter';
 import productRouter from './routes/productRouter';
+import orderRouter from './routes/orderRouter';
 
 const app = express();
 
@@ -13,8 +14,9 @@ app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
+app.use('/api/order', orderRouter);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

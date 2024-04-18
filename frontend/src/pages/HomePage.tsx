@@ -1,103 +1,61 @@
-// src/pages/HomePage.tsx
 import React from 'react';
 import logo from '../assets/images/logo_cdc.png';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="container">
-      <h1>Inicio</h1>
-      <p>Bienvenido a la página de inicio de Cárnicas Dehesa Chaparral.</p>
+    <>
+      <div className="full-page-container d-flex align-items-center justify-content-center" style={{ marginTop: '25px', marginBottom: '120px' }}>
+        <section className="section">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4 order-2 order-md-1 mt-5">
+                <div className="card text-center mt-4">
+                  <img src={'https://static.vecteezy.com/system/resources/previews/014/660/670/non_2x/catalog-line-icon-vector.jpg'} className="card-img-top mx-auto mt-3" alt="Logo" style={{ maxWidth: '200px' }} />
+                  <div className="card-body">
+                    <h5 className="card-title">Catálogo</h5>
+                    <p className="card-text">Descubre nuestros productos.</p>
+                    <a href="/catalogue" className="btn btn-primary btn-sm">Ir al Catálogo</a>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 order-1 order-md-2 align-self-center text-center" style={{ marginTop: '15px' }}>
+                <div className="container">
+                  <img src={logo} alt="CDC Logo" className="mb-4" style={{ maxWidth: '200px' }} />
+                  <h2>Bienvenido a</h2>
+                  <h1 className='mb-3'>Carnicas Dehesa Chaparral</h1>
+                  <p>Descubre la calidad y el sabor de nuestros productos</p>
+                  <a href="#quienes-somos" className="btn btn-primary btn-lg">Descubrenos</a>
+                </div>
+              </div>
+              <div className="col-md-4 order-3 order-md-3 mt-5">
+                <div className="card text-center mt-4">
+                  <img src={'https://cdn-icons-png.freepik.com/512/2649/2649019.png'} className="card-img-top mx-auto mt-3" alt="Logo" style={{ maxWidth: '200px' }} />
+                  <div className="card-body">
+                    <h5 className="card-title">Reservas</h5>
+                    <p className="card-text">Reserva una visita ahora.</p>
+                    <a href="/reservations" className="btn btn-primary btn-sm">Ir a Reservas</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-      {/* Codigo base tomado de: https://getbootstrap.com/ */}
-
-    <div className="container">
-
-
-    <div className="accordion" id="accordionExample">
-      <div className="accordion-item">
-        <h2 className="accordion-header">
-          <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Accordion Item #1
-          </button>
-        </h2>
-        <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-          <div className="accordion-body">
-            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      {/* Nueva sección "Quiénes Somos" independiente debajo del contenedor principal */}
+      <section id="quienes-somos" className="section mt-5">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-8 text-center">
+              <h2 className='mb-5'>Quiénes Somos</h2>
+              <p className='mb-4'>Somos una empresa dedicada a la venta de productos cárnicos de calidad, con una tradición que respeta el bienestar animal y el medio ambiente. Proveemos productos frescos y de calidad superior, directamente de nuestras granjas a su mesa.</p>
+              <p className='mb-4'>Todos nuestros productos ibéricos cuentan con denominación de orign protegida Los Pedroches.</p>
+            </div>
+            <img src={'https://argataca.com/wp-content/uploads/2019/01/iberico-bellota.jpg'} alt="Imagen descriptiva" className="img-fluid" style={{ maxWidth: '50%', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
           </div>
         </div>
-      </div>
-      <div className="accordion-item">
-        <h2 className="accordion-header">
-          <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Accordion Item #2
-          </button>
-        </h2>
-        <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-          <div className="accordion-body">
-            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-          </div>
-        </div>
-      </div>
-      <div className="accordion-item">
-        <h2 className="accordion-header">
-          <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Accordion Item #3
-          </button>
-        </h2>
-        <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-          <div className="accordion-body">
-            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classNamees that we use to style each element. These classNamees control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    </div>
-
-<br />
-    <div className="container">
-
-    <div className="row row-cols-1 row-cols-md-3 g-4">
-  <div className="col">
-    <div className="card h-100">
-      <div className="container py-3"><img src={logo} className="card-img-top" alt="..."/></div>
-      <div className="card-body">
-        <h5 className="card-title">Card title</h5>
-        <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div className="card-footer">
-        <small className="text-body-secondary">Last updated 3 mins ago</small>
-      </div>
-    </div>
-  </div>
-  <div className="col">
-    <div className="card h-100">
-      <div className="container py-3"><img src={logo} className="card-img-top" alt="..."/></div>
-      <div className="card-body">
-        <h5 className="card-title">Card title</h5>
-        <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-      </div>
-      <div className="card-footer">
-        <small className="text-body-secondary">Last updated 3 mins ago</small>
-      </div>
-    </div>
-  </div>
-  <div className="col">
-    <div className="card h-100">
-      <div className="container py-3"><img src={logo} className="card-img-top" alt="..."/></div>
-      <div className="card-body">
-        <h5 className="card-title">Card title</h5>
-        <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-      </div>
-      <div className="card-footer">
-        <small className="text-body-secondary">Last updated 3 mins ago</small>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
-    </div>
+      </section>
+    </>
   );
 };
 
