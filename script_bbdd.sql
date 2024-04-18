@@ -16,9 +16,9 @@ INSERT INTO `usuarios` VALUES ('41f80529-56a8-4d11-a817-5b525c730016', 'Pepe', '
 
 CREATE TABLE `pedidos` (
   `id` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `userID` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
+  `userID` varchar(64) COLLATE utf8_spanish_ci NULL,
   `userDirection` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `import` int(11) NOT NULL,
+  `import` FLOAT NOT NULL,
   `dateCreation` datetime NOT NULL,
   `dateDelivery` datetime NULL,
   `state` enum('creado','enviado','completado') COLLATE utf8_spanish_ci NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `productos` (
   `id` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `categoryID` varchar(64) COLLATE utf8_spanish_ci DEFAULT NULL,
   `name` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` FLOAT NOT NULL,
   `stock` int(11) NOT NULL,
   `imageURL` varchar(300) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -48,7 +48,7 @@ CREATE TABLE `pedidosProducto` (
   `orderID` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `productID` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `quantity` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` FLOAT NOT NULL,
   PRIMARY KEY (`id`),
   KEY `orderID` (`orderID`),
   KEY `productID` (`productID`)
@@ -61,7 +61,7 @@ CREATE TABLE `reservas` (
   `dateCreation` datetime NOT NULL,
   `dateArrival` datetime NOT NULL,
   `participants` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` FLOAT NOT NULL,
   `requests` varchar(512) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`)
@@ -70,11 +70,11 @@ CREATE TABLE `reservas` (
 
 CREATE TABLE `direcciones` (
   `id` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `via` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `name` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `number` int(11) NOT NULL,
+  `street` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
+  `number` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `province` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `info` varchar(64) COLLATE utf8_spanish_ci NULL,
+  `cp` varchar(64) COLLATE utf8_spanish_ci NULL,
   `country` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='TABLA DE DIRECCIONES';
