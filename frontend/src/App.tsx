@@ -20,6 +20,8 @@ import PaymentPage from './pages/user/paymentPage';
 import ManageOrders from './pages/admin/manageOrders';
 import MyOrdersPage from './pages/user/myOrdersPage';
 import ReservtionPage from './pages/user/reservationPage';
+import ManageReservations from './pages/admin/manageReservations';
+import ManageMyReservations from './pages/user/manageMyReservations';
 
 import { AuthProvider } from './AuthProvider';
 
@@ -48,6 +50,8 @@ const App = () => {
           <Route path="/manage-orders" element={<ManageOrders />} />
           <Route path="/my-orders" element={<MyOrdersPage />} />
           <Route path="/reservartions" element={<ReservtionPage />} />
+          <Route path="/manage-reservations" element={<ManageReservations />} />
+          <Route path="/my-reservations" element={<ManageMyReservations />} />
         </Routes>
         <Footer />
       </AuthProvider>

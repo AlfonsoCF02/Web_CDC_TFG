@@ -62,6 +62,9 @@ const ManageUsers = () => {
           { title: "Actions", data: "actions" }
         ],
         lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+        columnDefs: [
+          { className: 'align-middle ', targets: '_all' },
+        ],
         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-md-4'i><'col-md-4 text-center'B><'col-md-4'p>>",

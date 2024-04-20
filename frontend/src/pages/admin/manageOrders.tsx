@@ -75,6 +75,9 @@ const ManageOrders = () => {
           { title: "Estado", data: "state" },
           { title: "Acciones", data: "actions" }
         ],
+        columnDefs: [
+          { className: 'align-middle ', targets: '_all' },
+        ],
         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-md-4'i><'col-md-4 text-center'B><'col-md-4'p>>",
