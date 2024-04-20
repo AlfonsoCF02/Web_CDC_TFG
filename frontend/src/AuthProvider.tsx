@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             type: decodedToken.type
           };
           setUser(userData);
+          localStorage.setItem('id', userData.id);
         }
       } catch (error) {
         //console.log('Token no valido:', error);
@@ -86,6 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     setUser(userData);
     setToken(token);
+    localStorage.setItem('id', userData.id);
   };
 
 
@@ -93,6 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     navigate('/', { replace: true });
   };
 

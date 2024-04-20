@@ -36,7 +36,7 @@ const PaymentPage: React.FC = () => {
   const [fields, setFields] = useState<FieldsState>({
     firstName: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce tu nombre.' },
     street: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce tu dirección.' },
-    number: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce el número de tu dirección.' },
+    number: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce un teléfono válido.' },
     province: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce tu provincia.' },
     cp: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce un código postal válido.' },
     country: { value: '', touched: false, isValid: false, errorMessage: 'Por favor, introduce tu país.' },
@@ -71,7 +71,7 @@ const PaymentPage: React.FC = () => {
       case 'ccName':
         return value.trim() !== '';
       case 'number':
-        return value.trim() !== '';
+        return /^\d{9}$/.test(value);
       case 'cp':
         return /^\d+$/.test(value.trim()) && value.trim().length >= 1;
       case 'ccNumber':
@@ -129,6 +129,7 @@ const PaymentPage: React.FC = () => {
         import: totalGlobal // Importe total del pedido (se calcula utilizando totalGlobal)
     };
     try {
+
       const response = await axios.post(`${baseUrl}/api/order/create`, pedido);
 
       localStorage.removeItem('cart');
@@ -233,19 +234,6 @@ const PaymentPage: React.FC = () => {
                     <div className="invalid-feedback">{fields.street.errorMessage}</div>
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="number" className="form-label">Número</label>
-                    <input
-                      type="text"
-                      className={`form-control ${fields.number.touched && !fields.number.isValid ? 'is-invalid' : fields.number.isValid ? 'is-valid' : ''}`}
-                      id="number"
-                      name="number"
-                      value={fields.number.value}
-                      onChange={handleChange}
-                      required
-                    />
-                    <div className="invalid-feedback">{fields.number.errorMessage}</div>
-                  </div>
-                  <div className="col-md-6">
                     <label htmlFor="province" className="form-label">Provincia</label>
                     <input
                       type="text"
@@ -283,6 +271,19 @@ const PaymentPage: React.FC = () => {
                       required
                     />
                     <div className="invalid-feedback">{fields.country.errorMessage}</div>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="number" className="form-label">Teléfono</label>
+                    <input
+                      type="text"
+                      className={`form-control ${fields.number.touched && !fields.number.isValid ? 'is-invalid' : fields.number.isValid ? 'is-valid' : ''}`}
+                      id="number"
+                      name="number"
+                      value={fields.number.value}
+                      onChange={handleChange}
+                      required
+                    />
+                    <div className="invalid-feedback">{fields.number.errorMessage}</div>
                   </div>
                 </div>
               </form>

@@ -29,6 +29,7 @@ export const createOrder = async (req: Request, res: Response) => {
       await prisma.pedidos.create({
         data: {
           id: pedidoId,
+          userID: pedidoData.userID,
           userDirection: direccionId,
           import: pedidoData.import,
           dateCreation: new Date(),
@@ -73,6 +74,191 @@ export const createOrder = async (req: Request, res: Response) => {
     } catch (error) {
       console.error('Error al crear el pedido:', error);
       res.status(500).json({ success: false, error: 'Error interno del servidor.' });
+    }
+  };
+  
+  export const getOrders = async (req: Request, res: Response) => {
+    try {
+      // Obtenemos los pedidos de la base de datos.
+      const orders = await prisma.pedidos.findMany({
+        select: {
+          id: true,
+          import: true,
+          dateCreation: true,
+          dateDelivery: true,
+          state: true,
+          userDirection: true,
+          usuarios: {
+            select: {
+              name: true,
+              email: true,
+              phone: true
+            }
+          },
+          direcciones: {
+            select: {
+              name: true,
+              street: true,
+              number: true,
+              province: true,
+              cp: true,
+              country: true
+            }
+          },
+          pedidosProducto: {  // Incluye los detalles de los productos del pedido
+            select: {
+              quantity: true,
+              price: true,
+              productos: {
+                select: {
+                  name: true  // Asegúrate de que estos campos están correctos según tu modelo de 'productos'
+                }
+              }
+            }
+          }
+        }
+      });
+  
+      // Reformatear la respuesta para incluir los detalles del pedido directamente
+      const formattedOrders = orders.map(order => ({
+        id: order.id,
+        import: `${order.import.toFixed(2)}€`,
+        dateCreation: order.dateCreation.toLocaleDateString(),
+        dateDelivery: order.dateDelivery ? order.dateDelivery.toLocaleDateString() : 'Pendiente',
+        state: order.state,
+        userName: order.usuarios ? order.usuarios.name : 'Anónimo',
+        userEmail: order.usuarios ? order.usuarios.email : 'Anónimo',
+        //userPhone: order.usuarios ? order.usuarios.phone : 'Anónimo',
+        ordererName: order.direcciones.name,
+        ordererPhone: order.direcciones.number,
+        address: order.direcciones ? `${order.direcciones.street}; ${order.direcciones.province} (${order.direcciones.cp}); ${order.direcciones.country}` : 'Dirección desconocida',
+        products: order.pedidosProducto.map(pp => ({
+          productName: pp.productos.name,
+          quantity: pp.quantity,
+          pricePerUnit: `${pp.price.toFixed(2)}`
+        }))
+      }));
+  
+      res.json(formattedOrders);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Error en el servidor.' });
+    }
+  };
+
+
+  export const updateOrderState = async (req: Request, res: Response) => {
+    const { orderId, newState } = req.body;
+  
+    try {
+      // Obtener el pedido por su ID
+      const order = await prisma.pedidos.findUnique({
+        where: { id: orderId },
+      });
+  
+      if (!order) {
+        return res.status(404).json({ error: 'Pedido no encontrado' });
+      }
+  
+      // Determinar la nueva fecha de entrega según el estado
+      let newDateDelivery;
+      if (newState === 'completado') {
+        newDateDelivery = new Date(); // Fecha y hora actual si el estado es 'enviado'
+      } else if (newState === 'creado' || newState === 'enviado') {
+        newDateDelivery = null; // Null si el estado es 'creado'
+      } else {
+        newDateDelivery = order.dateDelivery; // Mantener la fecha actual si el estado es 'completado'
+      }
+
+      // Actualizar el estado del pedido y la fecha de entrega en una sola llamada
+      const updatedOrder = await prisma.pedidos.update({
+        where: { id: orderId },
+        data: {
+          state: newState,
+          dateDelivery: newDateDelivery,
+        },
+      });
+  
+      // Devolver el pedido actualizado
+      res.status(200).json(updatedOrder);
+    } catch (error) {
+      console.error('Error al actualizar el estado del pedido:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  };
+  
+
+
+  export const getMyOrders = async (req: Request, res: Response) => {
+
+    const userId = req.params.id;
+  
+    try {
+      // Obtenemos los pedidos de la base de datos que corresponden al userId proporcionado.
+      const orders = await prisma.pedidos.findMany({
+        where: { userID: userId },  // Filtra los pedidos para incluir solo aquellos con el userID especificado
+        select: {
+          id: true,
+          import: true,
+          dateCreation: true,
+          dateDelivery: true,
+          state: true,
+          userDirection: true,
+          usuarios: {
+            select: {
+              name: true,
+              email: true,
+              phone: true
+            }
+          },
+          direcciones: {
+            select: {
+              name: true,
+              street: true,
+              number: true,
+              province: true,
+              cp: true,
+              country: true
+            }
+          },
+          pedidosProducto: {  // Incluye los detalles de los productos del pedido
+            select: {
+              quantity: true,
+              price: true,
+              productos: {
+                select: {
+                  name: true  // Asegúrate de que estos campos están correctos según tu modelo de 'productos'
+                }
+              }
+            }
+          }
+        }
+      });
+  
+      // Reformatear la respuesta para incluir los detalles del pedido directamente
+      const formattedOrders = orders.map(order => ({
+        id: order.id,
+        import: `${order.import.toFixed(2)}€`,
+        dateCreation: order.dateCreation.toLocaleDateString(),
+        dateDelivery: order.dateDelivery ? order.dateDelivery.toLocaleDateString() : 'Pendiente',
+        state: order.state,
+        userName: order.usuarios ? order.usuarios.name : 'Anónimo',
+        userEmail: order.usuarios ? order.usuarios.email : 'Anónimo',
+        //userPhone: order.usuarios ? order.usuarios.phone : 'Anónimo',
+        ordererName: order.direcciones.name,
+        ordererPhone: order.direcciones.number,
+        address: order.direcciones ? `${order.direcciones.street}; ${order.direcciones.province} (${order.direcciones.cp}); ${order.direcciones.country}` : 'Dirección desconocida',
+        products: order.pedidosProducto.map(pp => ({
+          productName: pp.productos.name,
+          quantity: pp.quantity,
+          pricePerUnit: `${pp.price.toFixed(2)}€`
+        }))
+      }));
+  
+      res.json(formattedOrders);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Error en el servidor.' });
     }
   };
   
