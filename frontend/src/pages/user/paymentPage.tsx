@@ -328,6 +328,7 @@ const PaymentPage: React.FC = () => {
                       className={`form-control ${fields.ccExpiration.touched && !fields.ccExpiration.isValid ? 'is-invalid' : fields.ccExpiration.isValid ? 'is-valid' : ''}`}
                       id="cc-expiration"
                       name="ccExpiration"
+                      placeholder="MM/YY"
                       value={fields.ccExpiration.value}
                       onChange={handleChange}
                       required

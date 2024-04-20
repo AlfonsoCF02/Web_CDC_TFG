@@ -19,7 +19,7 @@ const Header: React.FC = () => {
           <ul className="nav col-12 col-lg-auto justify-content-center justify-content-lg-start mb-2 mb-lg-0 me-lg-auto">
             <li><a href="/" className="nav-link px-2 text-secondary">Home</a></li>
             <li><a href="/catalogue" className="nav-link px-2">Catálogo</a></li>
-            <li><a href="#" className="nav-link px-2">Reservas</a></li>
+            <li><a href="reservartions" className="nav-link px-2">Reservas</a></li>
             <li><a href="/catalogue" className="nav-link px-2">Productos</a></li>
             <li><a href="/#quienes-somos" className="nav-link px-2">About</a></li>
           </ul>

@@ -73,14 +73,15 @@ model productos {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model reservas {
-  id           String   @id @db.VarChar(64)
-  userID       String   @db.VarChar(64)
-  dateCreation DateTime @db.DateTime(0)
-  dateArrival  DateTime @db.DateTime(0)
+  id           String    @id @db.VarChar(64)
+  userID       String?   @db.VarChar(64)
+  orderer      String    @db.VarChar(64)
+  email        String    @db.VarChar(64)
+  dateCreation DateTime  @db.DateTime(0)
+  dateArrival  DateTime  @db.Date
   participants Int
-  price        Float    @default(0) @db.Float
-  requests     String   @db.VarChar(512)
-  usuarios     usuarios @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
+  price        Float     @default(0) @db.Float
+  usuarios     usuarios? @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
 
   @@index([userID], map: "userID")
 }

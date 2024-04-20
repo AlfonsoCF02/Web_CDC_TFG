@@ -19,6 +19,7 @@ import BasketPage from './pages/user/basketPage';
 import PaymentPage from './pages/user/paymentPage';
 import ManageOrders from './pages/admin/manageOrders';
 import MyOrdersPage from './pages/user/myOrdersPage';
+import ReservtionPage from './pages/user/reservationPage';
 
 import { AuthProvider } from './AuthProvider';
 
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/manage-orders" element={<ManageOrders />} />
           <Route path="/my-orders" element={<MyOrdersPage />} />
+          <Route path="/reservartions" element={<ReservtionPage />} />
         </Routes>
         <Footer />
       </AuthProvider>

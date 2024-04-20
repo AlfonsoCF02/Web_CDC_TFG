@@ -57,7 +57,7 @@ CREATE TABLE `pedidosProducto` (
 
 CREATE TABLE `reservas` (
   `id` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
-  `userID` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
+  `userID` varchar(64) COLLATE utf8_spanish_ci NULL,
   `dateCreation` datetime NOT NULL,
   `dateArrival` datetime NOT NULL,
   `participants` int(11) NOT NULL,
