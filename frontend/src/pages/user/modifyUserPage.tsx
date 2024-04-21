@@ -19,6 +19,7 @@ const EditUserPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { token, user: currentUser } = useAuth();
   const navigate = useNavigate();
+  const [isUpdating, setisUpdating] = useState(false);
   const { id } = useParams<{ id: string }>();
 
   const [user, setUser] = useState<User | null>({
@@ -125,7 +126,7 @@ const EditUserPage: React.FC = () => {
     }
   
     // Continuar con el envío del formulario si todos los campos son válidos
-
+    setisUpdating(true);
     // Verificamos si el campo de contraseña está vacío o es indefinido
     if (!user.password || user.password.trim() === '') {
       // Si está vacío o es indefinido, eliminamos el campo de contraseña del objeto user para evitar cambios
@@ -149,6 +150,7 @@ const EditUserPage: React.FC = () => {
         await axios.put(`${baseUrl}/api/user/update/${id}`, user, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
+        setisUpdating(false);
         if(currentUser && currentUser.type === 'admin' && currentUser.id != user.id){
             navigate('/manage-users');
         }else{
@@ -159,7 +161,7 @@ const EditUserPage: React.FC = () => {
         alert('El usuario ya existe.')
       }
     }
-
+    setisUpdating(false);
   };
   
 
@@ -294,7 +296,10 @@ const EditUserPage: React.FC = () => {
                         </div>
                     </section>                  
                     )}
-                    <Button variant="primary" type="submit">Actualizar Usuario</Button>
+                    <Button variant="primary" type="submit">
+                      {isUpdating ? 'Actualizando... ' : null}
+                      {isUpdating ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Actualizar Usuario'}
+                    </Button>
                   </Form>
                 </div>
               </div>

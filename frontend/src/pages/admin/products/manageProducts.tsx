@@ -18,6 +18,7 @@ const ManageProductos = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -118,6 +119,7 @@ const ManageProductos = () => {
 
   const handleDeleteProduct = async (id: string) => {
     if (id) {
+      setIsDeleting(true);
       try {
         await axios.delete(`${baseUrl}/api/product/delete`, {
             data: { id }, // Envía el ID en el cuerpo de la petición
@@ -128,6 +130,7 @@ const ManageProductos = () => {
       } catch (error) {
         console.error('Error deleting product:', error);
       }
+      setIsDeleting(false);
     }
   };
 
@@ -149,7 +152,10 @@ const ManageProductos = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
-          <Button variant="danger" onClick={() => currentProduct && handleDeleteProduct(currentProduct.id)}>Eliminar</Button>
+          <Button variant="danger" onClick={() => currentProduct && handleDeleteProduct(currentProduct.id)}>
+            {isDeleting ? 'Eliminando... ' : 'Eliminar'}
+            {isDeleting && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />}
+          </Button>
         </Modal.Footer>
       </Modal>
       {products.map(product => (

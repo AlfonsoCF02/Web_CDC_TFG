@@ -27,7 +27,8 @@ const ManageOrders = () => {
   const [data, setData] = useState<Order[]>([]);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [showAdminModal, setShowAdminModal] = useState(false); // Definir el estado showAdminModal
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [isUpdating, setisUpdating] = useState(false);
   const [newState, setNewState] = useState('');
 
   const fetchOrders = async () => {
@@ -219,7 +220,10 @@ $('#ordersTable').on('click', 'button[data-order-id]', function () {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowAdminModal(false)}>Cancelar</Button>
-          <Button variant="primary" onClick={handleStateChange}>Guardar Cambios</Button>
+          <Button variant="primary" onClick={handleStateChange}>
+            {isUpdating ? 'Actualizando... ' : null}
+            {isUpdating ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Guardar Cambios'}
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
@@ -227,6 +231,7 @@ $('#ordersTable').on('click', 'button[data-order-id]', function () {
 
   async function handleStateChange() {
     if (selectedOrder && selectedOrder.id) {
+      setisUpdating(true);
         try {
             const response = await axios.put(`${baseUrl}/api/order/updateState`, {
                 orderId: selectedOrder.id,
@@ -239,6 +244,7 @@ $('#ordersTable').on('click', 'button[data-order-id]', function () {
       } catch (error) {
         console.error('Error al actualizar el estado del pedido:', error);
       }
+      setisUpdating(false);
     }
   }
   

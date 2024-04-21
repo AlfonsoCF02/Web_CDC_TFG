@@ -18,6 +18,7 @@ const ManageCategories = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [categoryTouched, setCategoryTouched] = useState(false);
   const [categoryError, setCategoryError] = useState('');
+  const [isUpdating, setisUpdating] = useState(false);
   
   const fetchCategorias = async () => {
     setIsLoading(true);
@@ -126,6 +127,7 @@ const ManageCategories = () => {
       validateCategory(currentCategory.categoria);
 
       if (currentCategory.categoria) {
+        setisUpdating(true);
         try {
           const response = await axios.put(`${baseUrl}/api/category/update/${currentCategory.id}`, {
             categoria: currentCategory.categoria
@@ -142,6 +144,7 @@ const ManageCategories = () => {
             setCategoryError('Error al actualizar la categoría. Intente nuevamente.');
           }
         }
+        setisUpdating(false);
       }
     }
   };
@@ -149,6 +152,7 @@ const ManageCategories = () => {
 
 const confirmDelete = async () => {
   if (currentCategory && currentCategory.id) {
+    setisUpdating(true);
     try {
       await axios.delete(`${baseUrl}/api/category/delete/${currentCategory.id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -158,6 +162,7 @@ const confirmDelete = async () => {
     } catch (error) {
       console.error('Error deleting category:', error);
     }
+    setisUpdating(false);
   }
 };
 
@@ -165,6 +170,7 @@ const handleCreateCategory = async () => {
   setCategoryTouched(true);
   validateCategory(newCategoryName);
   if (newCategoryName && !categoryError) {
+    setisUpdating(true);
     try {
       const response = await axios.post(`${baseUrl}/api/category/create`, {
         categoria: newCategoryName
@@ -180,6 +186,7 @@ const handleCreateCategory = async () => {
         setCategoryError('Error al crear la categoría. Intente nuevamente.');
       }
     }
+    setisUpdating(false);
   }
 };
 
@@ -237,7 +244,10 @@ const getInputClass = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>Cerrar</Button>
-          <Button variant="primary" onClick={saveChanges}>Guardar Cambios</Button>
+          <Button variant="primary" onClick={saveChanges}>
+            {isUpdating ? 'Actualizando... ' : null}
+            {isUpdating ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Guardar Cambios'}
+          </Button>
         </Modal.Footer>
       </Modal>
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
@@ -249,7 +259,10 @@ const getInputClass = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
-          <Button variant="danger" onClick={() => confirmDelete()}>Eliminar</Button>
+          <Button variant="danger" onClick={() => confirmDelete()}>
+            {isUpdating ? 'Eliminando... ' : null}
+            {isUpdating ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Eliminar'}
+          </Button>
         </Modal.Footer>
       </Modal>
       {/* Modal para crear categoría */}
@@ -274,7 +287,10 @@ const getInputClass = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeAndResetModal}>Cerrar</Button>
-          <Button variant="primary" onClick={handleCreateCategory}>Crear</Button>
+          <Button variant="primary" onClick={handleCreateCategory}>
+            {isUpdating ? 'Creando... ' : null}
+            {isUpdating ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Crear Categoría'}
+          </Button>
         </Modal.Footer>
       </Modal>
       {/* Botones ocultos para disparar modales */}

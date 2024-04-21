@@ -41,6 +41,7 @@ const RegisterPage: React.FC = () => {
   const [confirmPasswordValid, setConfirmPasswordValid] = useState<boolean | null>(null);
   const [termsAcceptedValid, setTermsAcceptedValid] = useState<boolean | null>(null);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
+  const [isRegistering, setisRegistering] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -196,6 +197,8 @@ const RegisterPage: React.FC = () => {
           return;
         }
 
+        setisRegistering(true);
+
         // Envía el formulario al backend para registrar al usuario
         const response = await axios.post(`${baseUrl}/api/user/create`, {
           name,
@@ -207,10 +210,13 @@ const RegisterPage: React.FC = () => {
   
         //console.log('Registro exitoso:', response.data);
 
+        setisRegistering(false);
+
         // Redirige a la página de inicio de sesión
         navigate('/');
 
       } catch (error: any) {
+        setisRegistering(false);
         console.error('Error de registro:', error);
         if (error.response && error.response.data && error.response.data.error) {
           // Muestra el mensaje de error personalizado enviado desde el servidor
@@ -362,7 +368,10 @@ const RegisterPage: React.FC = () => {
                       {termsAcceptedValid === false && <div className="invalid-feedback">{termsAcceptedError}</div>}
                     </div>
                     <div className="d-grid mb-3">
-                      <button type="submit" className="btn btn-primary">Registrarse</button>
+                      <button type="submit" className="btn btn-primary">
+                        {isRegistering ? 'Registrarse ' : null}
+                        {isRegistering ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Registrarse'}
+                      </button>
                     </div>
                     <div className="mt-3 text-center">
                       ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>

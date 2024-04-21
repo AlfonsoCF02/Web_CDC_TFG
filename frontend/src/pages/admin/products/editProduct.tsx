@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 import imgNotFound from '../../../assets/images/image-not-found.jpg';
 import { baseUrl } from "../../../config";
 
@@ -51,6 +52,7 @@ const EditProduct = () => {
     stock: '',
     imageURL: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchProductAndCategories = async () => {
@@ -122,6 +124,7 @@ const EditProduct = () => {
     const formErrors = Object.values(errors).some(x => x);
   
     if (!formErrors) {
+      setIsEditing(true);
       try {
         await axios.put(`${baseUrl}/api/product/update/${id}`, product, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -141,6 +144,7 @@ const EditProduct = () => {
         imageUrl: true
       });
     }
+    setIsEditing(false);
   };
 
   return (
@@ -210,7 +214,10 @@ const EditProduct = () => {
               {errors.imageURL && touched.imageURL && <div className="invalid-feedback">{errors.imageURL}</div>}
             </div>
             <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary mt-3">Actualizar Producto</button>
+              <button type="submit" className="btn btn-primary mt-3">
+                {isEditing ? 'Actualizando... ' : 'Actualizar Producto'}
+                {isEditing && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />}
+              </button>
             </div>
           </form>
         </div>

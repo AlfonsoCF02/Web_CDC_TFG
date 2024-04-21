@@ -37,6 +37,8 @@ const LoginPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isLogin, setisLogin] = useState(false);
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -83,6 +85,8 @@ const LoginPage = () => {
 
       try {
         
+        setisLogin(true);
+
         const response = await axios.post(`${baseUrl}/api/user/login`, { email, password });
 
         // Espera que el backend devuelva el token y los datos del usuario
@@ -95,9 +99,12 @@ const LoginPage = () => {
 
         // Redirige a la página de inicio
 
+        setisLogin(false);
+
         navigate('/');
 
       } catch (error: any) {
+        setisLogin(false);
         console.error('Error de registro:', error);
         if (error.response && error.response.data && error.response.data.error) {
           // Muestra el mensaje de error personalizado enviado desde el servidor
@@ -179,7 +186,10 @@ const LoginPage = () => {
                       <a href="/forgot-password" className="mb-2 mb-lg-0">Olvidé mi contraseña</a>
                     </div>
                     <div className="d-grid mb-3">
-                      <button type="submit" className="btn btn-primary">Login</button>
+                      <button type="submit" className="btn btn-primary">
+                        {isLogin ? 'Login ' : null}
+                        {isLogin ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Login'}
+                      </button>
                     </div>
                     <div className="mt-4 text-center">
                       ¿No tienes cuenta? <a href="/registro">Crear una</a>

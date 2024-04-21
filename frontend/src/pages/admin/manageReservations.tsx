@@ -169,7 +169,7 @@ const ManageReservations = () => {
             Cancelar
           </Button>
           <Button variant="danger" onClick={handleDeleteReservation}>
-            {isDeleting ? 'Eliminando...' : 'Eliminar'}
+            {isDeleting ? 'Eliminando... ' : 'Eliminar'}
             {isDeleting && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />}
           </Button>
         </Modal.Footer>

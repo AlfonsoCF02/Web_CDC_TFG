@@ -20,8 +20,8 @@ const Header: React.FC = () => {
             <li><a href="/" className="nav-link px-2 text-secondary">Home</a></li>
             <li><a href="/catalogue" className="nav-link px-2">Catálogo</a></li>
             <li><a href="reservartions" className="nav-link px-2">Reservas</a></li>
-            <li><a href="/catalogue" className="nav-link px-2">Productos</a></li>
-            <li><a href="/#quienes-somos" className="nav-link px-2">About</a></li>
+            <li><a href="/contact" className="nav-link px-2">Contacto</a></li>
+            <li><a href="/about" className="nav-link px-2">About</a></li>
           </ul>
           {/* Contenedor de botones de Login y Registro / logout / funcionalidades */}
           <div className="nav col-12 col-lg-auto justify-content-center justify-content-lg-start mb-2 mb-lg-0 align-items-center text-center">
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
                         <li><a className="dropdown-item" href="/my-orders">Mis Pedidos</a></li>
                         <li><a className="dropdown-item" href="/my-reservations">Mis Reservas</a></li>
                         <li><a className="dropdown-item" href={`/edit-user/${user.id}`}>Modificar Usuario</a></li>
-                        <li><a className="dropdown-item" href="">Cambiar Contraseña</a></li>
+                        {/* <li><a className="dropdown-item" href="">Cambiar Contraseña</a></li> */}
                       </ul>
                     </div>
                   )}

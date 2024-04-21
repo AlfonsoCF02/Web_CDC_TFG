@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 import imgNotFound from '../../../assets/images/image-not-found.jpg';
 import { baseUrl } from "../../../config";
 
@@ -51,7 +52,7 @@ const CreateProduct = () => {
       'https://i.postimg.cc/G3zkz5Wd/bellota.png\n' +
       'Puede usar el "Enlace directo de" https://postimages.org/es/'
   });  
-  
+  const [isCreating, setIsCreating] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -122,6 +123,7 @@ const CreateProduct = () => {
     const formTouched = Object.values(touched).every(x => x);
   
     if (!formErrors && formTouched) {
+      setIsCreating(true);
       try {
         await axios.post(`${baseUrl}/api/product/create`, product, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -141,6 +143,7 @@ const CreateProduct = () => {
         imageUrl: true
       });
     }
+    setIsCreating(false);
   };
   
 
@@ -222,7 +225,10 @@ const CreateProduct = () => {
               {errors.imageUrl && <div className="invalid-feedback">{errors.imageUrl}</div>}
             </div>
             <div className="d-flex justify-content-center">
-              <button type="button" className="btn btn-primary mt-3" onClick={handleButtonClick}>Crear Producto</button>
+              <button type="button" className="btn btn-primary mt-3" onClick={handleButtonClick}>
+                {isCreating ? 'Creando... ' : 'Crear Producto'}
+                {isCreating && <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />}
+              </button>
             </div>
           </form>
         </div>

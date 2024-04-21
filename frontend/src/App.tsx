@@ -22,6 +22,7 @@ import MyOrdersPage from './pages/user/myOrdersPage';
 import ReservtionPage from './pages/user/reservationPage';
 import ManageReservations from './pages/admin/manageReservations';
 import ManageMyReservations from './pages/user/manageMyReservations';
+import ContactPage from './pages/ContactPage';
 
 import { AuthProvider } from './AuthProvider';
 
@@ -33,6 +34,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registro" element={<RegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />

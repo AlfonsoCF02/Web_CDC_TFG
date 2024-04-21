@@ -25,11 +25,11 @@ export const createOrder = async (req: Request, res: Response) => {
         },
       });
   
-      // Crear el pedido
+      // Crear el pedido asegurando que userID solo se añade si no es null
       await prisma.pedidos.create({
         data: {
           id: pedidoId,
-          userID: pedidoData.userID,
+          userID: pedidoData.userID || undefined,
           userDirection: direccionId,
           import: pedidoData.import,
           dateCreation: new Date(),
@@ -70,7 +70,7 @@ export const createOrder = async (req: Request, res: Response) => {
         })
       );
   
-      res.status(201).json({ success: true, message: 'Pedido creado correctamente.' });
+      res.status(201).json({ success: true, message: 'Pedido creado correctamente.', orderID: pedidoId });
     } catch (error) {
       console.error('Error al crear el pedido:', error);
       res.status(500).json({ success: false, error: 'Error interno del servidor.' });

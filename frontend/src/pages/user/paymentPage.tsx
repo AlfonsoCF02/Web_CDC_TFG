@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import {Button, Modal} from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthProvider';
@@ -30,6 +30,8 @@ const PaymentPage: React.FC = () => {
   const savedCart = localStorage.getItem('cart');
   const cesta: { [productId: string]: ProductoCesta } = savedCart ? JSON.parse(savedCart) : {};
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [orderID, setorderID] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Estado para los valores de los campos y sus estados de validación
@@ -87,6 +89,15 @@ const PaymentPage: React.FC = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (user) {
+        navigate('/my-orders');
+    } else {
+        navigate('/');
+    }
+};
+
   // Función para validar todos los campos del formulario
   const validateForm = () => {
     const formIsValid = Object.values(fields).every(field => field.isValid);
@@ -106,7 +117,6 @@ const PaymentPage: React.FC = () => {
     setFields(touchedFields);
     
     const formIsValid = Object.values(fields).every(field => field.isValid);
-
     if (formIsValid) {
       setIsLoading(true);
       const pedido = {
@@ -134,13 +144,9 @@ const PaymentPage: React.FC = () => {
 
       localStorage.removeItem('cart');
 
-      alert('Pedido realizado con éxito');
+      setorderID(response.data.orderID);
+      setShowModal(true);
 
-      if(user){
-        navigate('/my-orders');
-      }else{
-        navigate(`/order-completed`);
-      }
     } catch (error: any) {
       console.error('Error al enviar el pedido:', error);
       if (error.response && error.response.data && error.response.data.error) {
@@ -193,7 +199,7 @@ const PaymentPage: React.FC = () => {
             {/* Botón "Pagar" */}
             <div className="container mb-3">
               <Button variant="primary" className="w-100" onClick={handlePagar} disabled={isLoading}>
-                {isLoading ? 'Procesando pago...' : null}
+                {isLoading ? 'Procesando pago... ' : null}
                 {isLoading ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Pagar'}
               </Button>
             </div>
@@ -354,6 +360,19 @@ const PaymentPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+              <Modal.Title>Pedido realizado correctamente</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              Tu pedido con identificador <strong>{orderID}</strong> ha sido realizado con éxito y está siendo procesado.
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                  Cerrar
+              </Button>
+          </Modal.Footer>
+      </Modal>
     </main>
   );
 };

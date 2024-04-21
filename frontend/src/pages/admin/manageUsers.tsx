@@ -18,6 +18,7 @@ const ManageUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isDeletin, setisDeletin] = useState(false);
   const navigate = useNavigate();
 
   const fetchUsers = async () => {
@@ -119,12 +120,15 @@ const ManageUsers = () => {
   const handleDeleteUser = async (id: string) => {
     if (id) {
       try {
+        setisDeletin(true);
         await axios.delete(`${baseUrl}/api/user/delete/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         setShowDeleteModal(false);  // Cierra el modal de confirmación
+        setisDeletin(false);  // Desactiva el spinner de carga
         fetchUsers();  // Actualiza la lista de usuarios tras eliminar uno
       } catch (error) {
+        setisDeletin(false);
         console.error('Error deleting user:', error);
         // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
       }
@@ -147,7 +151,10 @@ const ManageUsers = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancelar</Button>
-          <Button variant="danger" onClick={() => currentUser && handleDeleteUser(currentUser.id)}>Eliminar</Button>
+          <Button variant="danger" onClick={() => currentUser && handleDeleteUser(currentUser.id)}>
+            {isDeletin ? 'Eliminando... ' : null}
+            {isDeletin ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> : 'Eliminar'}
+          </Button>
         </Modal.Footer>
       </Modal>
       {users.map(user => (
