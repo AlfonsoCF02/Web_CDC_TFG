@@ -35,7 +35,7 @@ model pedidos {
   dateCreation    DateTime          @db.DateTime(0)
   dateDelivery    DateTime?         @db.DateTime(0)
   state           pedidos_state
-  usuarios        usuarios?         @relation(fields: [userID], references: [id], onDelete: Cascade, map: "pedidos_ibfk_1")
+  usuarios        usuarios?         @relation(fields: [userID], references: [id], map: "pedidos_ibfk_1")
   direcciones     direcciones       @relation(fields: [userDirection], references: [id], onDelete: Cascade, map: "pedidos_ibfk_2")
   pedidosProducto pedidosProducto[]
 
@@ -45,13 +45,13 @@ model pedidos {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model pedidosProducto {
-  id        String    @id @db.VarChar(64)
-  orderID   String    @db.VarChar(64)
-  productID String    @db.VarChar(64)
+  id        String     @id @db.VarChar(64)
+  orderID   String     @db.VarChar(64)
+  productID String?    @db.VarChar(64)
   quantity  Int
-  price     Float     @default(0) @db.Float
-  pedidos   pedidos   @relation(fields: [orderID], references: [id], onDelete: Cascade, map: "PP_ibfk_1")
-  productos productos @relation(fields: [productID], references: [id], onDelete: Cascade, map: "PP_ibfk_2")
+  price     Float      @default(0) @db.Float
+  pedidos   pedidos    @relation(fields: [orderID], references: [id], onDelete: Cascade, map: "PP_ibfk_1")
+  productos productos? @relation(fields: [productID], references: [id], map: "PP_ibfk_2")
 
   @@index([orderID], map: "orderID")
   @@index([productID], map: "productID")
@@ -81,7 +81,7 @@ model reservas {
   dateArrival  DateTime  @db.Date
   participants Int
   price        Float     @default(0) @db.Float
-  usuarios     usuarios? @relation(fields: [userID], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
+  usuarios     usuarios? @relation(fields: [userID], references: [id], map: "reservas_ibfk_1")
 
   @@index([userID], map: "userID")
 }

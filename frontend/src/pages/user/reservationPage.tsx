@@ -180,12 +180,13 @@ const CreateReservation: React.FC = () => {
         userID: localStorage.getItem('id') || '', // Get userID from localStorage or use empty string if not present
         orderer: fields.name.value,
         email: fields.email.value,
-        dateArrival: selectedDate.toISOString().split('T')[0], // Format date as YYYY-MM-DD
+        dateArrival: selectedDate.toLocaleDateString('en-CA'), // Format date as YYYY-MM-DD
         participants: parseInt(fields.participants.value),
         price: calculatePrice(parseInt(fields.participants.value))
       };
 
       try {
+        console.log('Reservando visita:', reservationData);
         const response = await axios.post(`${baseUrl}/api/reservation/create`, reservationData);
         setReservationId(response.data.id); // Guardar el ID de la reserva
         setShowModal(true); // Mostrar el modal después de la reserva
@@ -211,7 +212,7 @@ const CreateReservation: React.FC = () => {
     if(localStorage.getItem('id')){
       navigate('/my-reservations');
     }else{
-      navigate(`/reservation-completed`);
+      navigate(`/`);
     }
   };
 

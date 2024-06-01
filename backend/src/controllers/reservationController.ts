@@ -82,8 +82,8 @@ export const getReservations = async (req, res) => {
       id: reservation.id,
       orderer: reservation.orderer,
       email: reservation.email,
-      dateCreation: reservation.dateCreation.toLocaleDateString(),
-      dateArrival: reservation.dateArrival.toLocaleDateString(),
+      dateCreation: reservation.dateCreation,
+      dateArrival: reservation.dateArrival,
       participants: reservation.participants,
       price: `${reservation.price.toFixed(2)}€`,
       userName: reservation.usuarios ? reservation.usuarios.name : 'Anónimo',
@@ -131,13 +131,13 @@ export const getMyReservations = async (req, res) => {
         dateArrival: true,
         participants: true,
         price: true,
-      }
+      },
     });
 
     const formattedReservations = reservations.map(reservation => ({
       id: reservation.id,
-      dateCreation: reservation.dateCreation.toLocaleDateString(),
-      dateArrival: reservation.dateArrival.toLocaleDateString(),
+      dateCreation: reservation.dateCreation,
+      dateArrival: reservation.dateArrival,
       participants: reservation.participants,
       price: `${reservation.price.toFixed(2)}€`,
     }));

@@ -1,13 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AuthProvider } from './AuthProvider';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/login/LoginPage';
 import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
 import ResetPasswordPage from './pages/login/ResetPasswordPage';
 import RegisterPage from './pages/register/RegisterPage';
 import ManageUsersPage from './pages/admin/manageUsers';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
 import EditUserPage from './pages/user/modifyUserPage';
 import ProfilePage from './pages/user/profilePage';
 import ManageCategories from './pages/admin/manageCategories';
@@ -19,12 +22,27 @@ import BasketPage from './pages/user/basketPage';
 import PaymentPage from './pages/user/paymentPage';
 import ManageOrders from './pages/admin/manageOrders';
 import MyOrdersPage from './pages/user/myOrdersPage';
-import ReservtionPage from './pages/user/reservationPage';
+import ReservationPage from './pages/user/reservationPage';
 import ManageReservations from './pages/admin/manageReservations';
 import ManageMyReservations from './pages/user/manageMyReservations';
-import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
+import AccessDeniedPage from './pages/AccessDeniedPage';
 
-import { AuthProvider } from './AuthProvider';
+interface ProtectedRouteProps {
+  children: any;
+  allowedRoles: string[];
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
+  const type = localStorage.getItem('type');
+  const location = useLocation();
+  if (!type) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  } else if (!allowedRoles.includes(type)) {
+    return <Navigate to="/access-denied" replace />;
+  }
+  return children;
+};
 
 const App = () => {
   return (
@@ -39,21 +57,23 @@ const App = () => {
           <Route path="/registro" element={<RegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/manage-users" element={<ManageUsersPage />} />
-          <Route path="/edit-user/:id" element={<EditUserPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/manage-categories" element={<ManageCategories />} />
-          <Route path="/manage-products" element={<ManageProductos />} />
-          <Route path="/create-product" element={<CreateProduct />} />
-          <Route path="/edit-product/:id" element={<EditProduct />} />
+          <Route path="/manage-users" element={<ProtectedRoute allowedRoles={['admin']}><ManageUsersPage /></ProtectedRoute>} />
+          <Route path="/edit-user/:id" element={<ProtectedRoute allowedRoles={['user', 'admin']}><EditUserPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute allowedRoles={['user', 'admin']}><ProfilePage /></ProtectedRoute>} />
+          <Route path="/manage-categories" element={<ProtectedRoute allowedRoles={['admin']}><ManageCategories /></ProtectedRoute>} />
+          <Route path="/manage-products" element={<ProtectedRoute allowedRoles={['admin']}><ManageProductos /></ProtectedRoute>} />
+          <Route path="/create-product" element={<ProtectedRoute allowedRoles={['admin']}><CreateProduct /></ProtectedRoute>} />
+          <Route path="/edit-product/:id" element={<ProtectedRoute allowedRoles={['admin']}><EditProduct /></ProtectedRoute>} />
           <Route path="/catalogue" element={<CataloguePage />} />
           <Route path="/basket" element={<BasketPage />} />
           <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/manage-orders" element={<ManageOrders />} />
-          <Route path="/my-orders" element={<MyOrdersPage />} />
-          <Route path="/reservartions" element={<ReservtionPage />} />
-          <Route path="/manage-reservations" element={<ManageReservations />} />
-          <Route path="/my-reservations" element={<ManageMyReservations />} />
+          <Route path="/manage-orders" element={<ProtectedRoute allowedRoles={['admin']}><ManageOrders /></ProtectedRoute>} />
+          <Route path="/my-orders" element={<ProtectedRoute allowedRoles={['user', 'admin']}><MyOrdersPage /></ProtectedRoute>} />
+          <Route path="/reservations" element={<ReservationPage />} />
+          <Route path="/manage-reservations" element={<ProtectedRoute allowedRoles={['admin']}><ManageReservations /></ProtectedRoute>} />
+          <Route path="/my-reservations" element={<ProtectedRoute allowedRoles={['user', 'admin']}><ManageMyReservations /></ProtectedRoute>} />
+          <Route path="/access-denied" element={<AccessDeniedPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
       </AuthProvider>

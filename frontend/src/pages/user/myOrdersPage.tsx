@@ -8,8 +8,8 @@ interface Order {
   id: string;
   userName: string;
   import: string;
-  dateCreation: string;
-  dateDelivery: string;
+  dateCreation: Date;
+  dateDelivery: Date;
   state: string;
   ordererName: string;
   ordererPhone: string;
@@ -48,6 +48,23 @@ const ManageOrders = () => {
     fetchOrders();
   }, []);
 
+  function formatDisplayDate(dateString: any) {
+    if (!dateString || dateString.toLowerCase() === 'pendiente') {
+      return dateString; // Devuelve el valor original si es 'Pendiente' o es un valor falso
+    }
+  
+    const date = new Date(dateString);
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleDateString('es', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+      });
+    } else {
+      return "Fecha no válida"; // O puedes devolver una cadena vacía o un mensaje de error específico
+    }
+  }
+
   useEffect(() => {
     if (!isLoading) {
       $('#ordersTable').DataTable({
@@ -66,8 +83,20 @@ const ManageOrders = () => {
         columns: [
           { title: "ID", data: "id" },
           { title: "Importe", data: "import" },
-          { title: "Creado", data: "dateCreation" },
-          { title: "Entregado", data: "dateDelivery" },
+          {
+            title: "Creado",
+            data: "dateCreation",
+            render: function(data, type) {
+              return type === 'display' ? formatDisplayDate(data) : data;
+            }
+          },
+          {
+            title: "Entregado",
+            data: "dateDelivery",
+            render: function(data, type) {
+              return type === 'display' ? formatDisplayDate(data) : data;
+            }
+          },
           { title: "Estado", data: "state" },
           { title: "Acciones", data: "actions" }
         ],
@@ -147,8 +176,8 @@ const ManageOrders = () => {
           {selectedOrder && (
             <div>
               <p><strong>Importe:</strong> €{selectedOrder.import}</p>
-              <p><strong>Fecha de Creación:</strong> {selectedOrder.dateCreation}</p>
-              <p><strong>Fecha de Entrega:</strong> {selectedOrder.dateDelivery}</p>
+              <p><strong>Fecha de Creación:</strong> {formatDisplayDate(selectedOrder.dateCreation)}</p>
+              <p><strong>Fecha de Entrega:</strong> {formatDisplayDate(selectedOrder.dateDelivery)}</p>
               <p><strong>Estado:</strong> {selectedOrder.state}</p>
               <p><strong>Ordenante:</strong> {selectedOrder.ordererName}</p>
               <p><strong>Teléfono:</strong> {selectedOrder.ordererPhone}</p>

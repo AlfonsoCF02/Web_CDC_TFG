@@ -55,12 +55,12 @@ const ManageUsers = () => {
         })),
         destroy: true,
         columns: [
-          { title: "Name", data: "name" },
-          { title: "Surname", data: "surname" },
+          { title: "Nombre", data: "name" },
+          { title: "Apellidos", data: "surname" },
           { title: "Email", data: "email" },
-          { title: "Phone", data: "phone" },
+          { title: "Teléfono", data: "phone" },
           { title: "Tipo", data: "type" },
-          { title: "Actions", data: "actions" }
+          { title: "Acciones", data: "actions" }
         ],
         lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
         columnDefs: [

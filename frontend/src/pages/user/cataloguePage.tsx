@@ -140,7 +140,7 @@ const CataloguePage: React.FC = () => {
                     .map((producto) => (
                         <div className="col-md-4 mb-4" key={producto.id}>
                             <div className="card producto-card">
-                                <img src={producto.imageURL} className="card-img-top producto-imagen" alt={producto.name} />
+                                <img src={producto.imageURL} className="card-img-top producto-imagen mt-2" alt={producto.name} />
                                 <div className="card-body d-flex flex-column">
                                     <h5 className="card-title producto-titulo">{producto.name}</h5>
                                     <p className="card-text producto-precio">Precio: {producto.price}€</p>

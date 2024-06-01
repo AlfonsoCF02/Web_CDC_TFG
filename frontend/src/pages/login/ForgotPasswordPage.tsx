@@ -1,21 +1,14 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
-
-/******************************************************************************
- *
- * @author          Alfonso Cabezas Fernández
- * 
- * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
- * 
- * @description    Página de reseteo de la contraseña
- * 
- ******************************************************************************/
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,7 +36,7 @@ const ForgotPasswordPage: React.FC = () => {
 
     if (emailIsValid) {
       console.log("Formulario enviado con éxito.");
-      // Aquí se implementaría la lógica de envío del formulario de recuperación de contraseña
+      setShowModal(true);
     } else {
       console.log("Por favor, ingrese un email válido.");
     }
@@ -51,6 +44,11 @@ const ForgotPasswordPage: React.FC = () => {
 
   const getValidationClass = (isValid: boolean | null): string => {
     return isValid === null ? '' : isValid ? 'is-valid' : 'is-invalid';
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    navigate('/');
   };
 
   return (
@@ -95,6 +93,25 @@ const ForgotPasswordPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {showModal && (
+        <div className="modal fade show d-block" tabIndex={-1} role="dialog">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Aviso</h5>
+                <button type="button" className="btn-close" aria-label="Close" onClick={handleCloseModal}></button>
+              </div>
+              <div className="modal-body">
+                Se ha iniciado el proceso de cambio de contraseña. Un miembro del personal revisará su caso y se pondrá en contacto con usted.
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-success" onClick={handleCloseModal}>Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

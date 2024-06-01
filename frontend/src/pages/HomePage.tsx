@@ -22,9 +22,9 @@ const HomePage: React.FC = () => {
                 <div className="container">
                   <img src={logo} alt="CDC Logo" className="mb-4" style={{ maxWidth: '200px' }} />
                   <h2>Bienvenido a</h2>
-                  <h1 className='mb-3'>Carnicas Dehesa Chaparral</h1>
+                  <h1 className='mb-3'>Cárnicas Dehesa Chaparral</h1>
                   <p>Descubre la calidad y el sabor de nuestros productos</p>
-                  <a href="#quienes-somos" className="btn btn-primary btn-lg">Descubrenos</a>
+                  <a href="#quienes-somos" className="btn btn-primary btn-lg">Descúbrenos</a>
                 </div>
               </div>
               <div className="col-md-4 order-3 order-md-3 mt-5">
@@ -48,8 +48,9 @@ const HomePage: React.FC = () => {
           <div className="row justify-content-center">
             <div className="col-md-8 text-center">
               <h2 className='mb-5'>Quiénes Somos</h2>
-              <p className='mb-4'>Somos una empresa dedicada a la venta de productos cárnicos de calidad, con una tradición que respeta el bienestar animal y el medio ambiente. Proveemos productos frescos y de calidad superior, directamente de nuestras granjas a su mesa.</p>
-              <p className='mb-4'>Todos nuestros productos ibéricos cuentan con denominación de orign protegida Los Pedroches.</p>
+              <p className='mb-4'>Somos una empresa dedicada a la venta de productos cárnicos de calidad, con una tradición que respeta el bienestar animal y el medio ambiente. Proveemos productos frescos y de calidad superior directamente de nuestra ganadería a su mesa.</p>
+              <p className='mb-4'>Todos nuestros productos ibéricos cuentan con Denominación de Origen Protegida Los Pedroches.</p>
+              <p className='mb-4'>Si quieres descubrir más sobre el día a día en la finca, el proceso de fabricación o crianza, no dudes en <a href="/reservations">visitarnos</a>.</p>
             </div>
             <img src={'https://argataca.com/wp-content/uploads/2019/01/iberico-bellota.jpg'} alt="Imagen descriptiva" className="img-fluid" style={{ maxWidth: '50%', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
           </div>

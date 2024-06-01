@@ -8,8 +8,8 @@ interface Reservation {
     orderer: string;
     userName: string;
     email: string;
-    dateCreation: string;
-    dateArrival: string;
+    dateCreation: Date;
+    dateArrival: Date;
     participants: number;
     price: number;
 }
@@ -39,6 +39,15 @@ const ManageReservations = () => {
     fetchReservations();
   }, []);
 
+  function formatDisplayDate(isoDateString: any) {
+    const date = new Date(isoDateString);
+    return date.toLocaleDateString('es', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit'
+    });
+  }
+  
   useEffect(() => {
     if (!isLoading) {
       $('#reservationsTable').DataTable({
@@ -62,8 +71,20 @@ const ManageReservations = () => {
           { title: "User", data: "userName" },
           { title: "Ordenante", data: "orderer" },
           { title: "Email", data: "email" },
-          { title: "Creada", data: "dateCreation" },
-          { title: "Llegada", data: "dateArrival" },
+          { 
+            title: "Creada", 
+            data: "dateCreation",
+            render: function(data, type) {
+              return type === 'display' ? formatDisplayDate(data) : data;
+            }
+          },
+          { 
+            title: "Llegada", 
+            data: "dateArrival",
+            render: function(data, type) {
+              return type === 'display' ? formatDisplayDate(data) : data;
+            }
+          },
           { title: "Visitantes", data: "participants" },
           { title: "Precio", data: "price" },
           { title: "Acciones", data: "actions" }

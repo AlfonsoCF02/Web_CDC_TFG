@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Spinner } from 'react-bootstrap';
+import { Button, Form, Spinner, Modal } from 'react-bootstrap'; // Importar Modal
 import { useAuth } from '../../AuthProvider';
 import { baseUrl } from "../../config";
 
@@ -51,6 +51,9 @@ const EditUserPage: React.FC = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  // Estado para el modal
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -142,7 +145,7 @@ const EditUserPage: React.FC = () => {
           }
       } catch (error) {
         console.error('Error updating user:', error);
-        alert('El usuario ya existe.')
+        setShowModal(true); // Mostrar el modal en caso de error
       }
     } else {
       // Si no está vacío, procedemos con la validación y el envío del formulario
@@ -158,7 +161,7 @@ const EditUserPage: React.FC = () => {
         }
       } catch (error) {
         console.error('Error updating user:', error);
-        alert('El usuario ya existe.')
+        setShowModal(true); // Mostrar el modal en caso de error
       }
     }
     setisUpdating(false);
@@ -307,6 +310,21 @@ const EditUserPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Ya existe un usuario con ese email.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

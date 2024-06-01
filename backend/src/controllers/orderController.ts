@@ -123,8 +123,8 @@ export const createOrder = async (req: Request, res: Response) => {
       const formattedOrders = orders.map(order => ({
         id: order.id,
         import: `${order.import.toFixed(2)}€`,
-        dateCreation: order.dateCreation.toLocaleDateString(),
-        dateDelivery: order.dateDelivery ? order.dateDelivery.toLocaleDateString() : 'Pendiente',
+        dateCreation: order.dateCreation,
+        dateDelivery: order.dateDelivery ? order.dateDelivery : 'Pendiente',
         state: order.state,
         userName: order.usuarios ? order.usuarios.name : 'Anónimo',
         userEmail: order.usuarios ? order.usuarios.email : 'Anónimo',
@@ -133,7 +133,7 @@ export const createOrder = async (req: Request, res: Response) => {
         ordererPhone: order.direcciones.number,
         address: order.direcciones ? `${order.direcciones.street}; ${order.direcciones.province} (${order.direcciones.cp}); ${order.direcciones.country}` : 'Dirección desconocida',
         products: order.pedidosProducto.map(pp => ({
-          productName: pp.productos.name,
+          productName: pp.productos && pp.productos.name ? pp.productos.name : 'Desconocido',
           quantity: pp.quantity,
           pricePerUnit: `${pp.price.toFixed(2)}`
         }))
@@ -239,8 +239,8 @@ export const createOrder = async (req: Request, res: Response) => {
       const formattedOrders = orders.map(order => ({
         id: order.id,
         import: `${order.import.toFixed(2)}€`,
-        dateCreation: order.dateCreation.toLocaleDateString(),
-        dateDelivery: order.dateDelivery ? order.dateDelivery.toLocaleDateString() : 'Pendiente',
+        dateCreation: order.dateCreation,
+        dateDelivery: order.dateDelivery ? order.dateDelivery : 'Pendiente',
         state: order.state,
         userName: order.usuarios ? order.usuarios.name : 'Anónimo',
         userEmail: order.usuarios ? order.usuarios.email : 'Anónimo',
@@ -249,7 +249,7 @@ export const createOrder = async (req: Request, res: Response) => {
         ordererPhone: order.direcciones.number,
         address: order.direcciones ? `${order.direcciones.street}; ${order.direcciones.province} (${order.direcciones.cp}); ${order.direcciones.country}` : 'Dirección desconocida',
         products: order.pedidosProducto.map(pp => ({
-          productName: pp.productos.name,
+          productName: pp.productos && pp.productos.name ? pp.productos.name : 'Desconocido',
           quantity: pp.quantity,
           pricePerUnit: `${pp.price.toFixed(2)}€`
         }))
