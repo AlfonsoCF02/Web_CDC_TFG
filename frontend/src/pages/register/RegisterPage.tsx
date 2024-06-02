@@ -13,7 +13,7 @@ import { baseUrl } from "../../config";
  * 
  * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
  * 
- * @description    Página de reseteo de la contraseña
+ * @description    Página de registro de usuarios
  * 
  ******************************************************************************/
 
@@ -392,13 +392,13 @@ const RegisterPage: React.FC = () => {
             </div>
             <div className="modal-body">
               <p style={{ textAlign: 'justify' }}>
-                  Esta es una página de prueba para propósitos académicos y de demostración.
+                  Esta es una página de prueba con propósitos académicos y de demostración.
               </p>
               <p style={{ textAlign: 'justify' }}>
-                  Los datos ingresados en esta página serán almacenados temporalmente con el único propósito de tener un dataset apropiado para la defensa de este TFG y serán eliminados en un plazo máximo de 21 días.
+                  Los datos ingresados en esta página serán almacenados temporalmente con el único propósito de tener un dataset apropiado para la defensa de este TFG y serán eliminados en un plazo máximo de 31 días.
               </p>
               <p style={{ textAlign: 'justify' }}>
-                  Esta página y todos sus contenidos son parte de un proyecto de Trabajo de Fin de Grado (TFG) y no por tanto no se pueden realizar compras ni reservas reales en esta pagina.
+                  Esta página y todos sus contenidos son parte de un proyecto de Trabajo de Fin de Grado (TFG) y por tanto, no se pueden realizar compras ni reservas reales en la misma.
               </p>
               <p style={{ textAlign: 'justify' }}>
                   Gracias por su comprensión y por participar en este proyecto.

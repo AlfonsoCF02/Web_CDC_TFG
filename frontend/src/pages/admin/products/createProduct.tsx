@@ -5,6 +5,16 @@ import { Spinner } from 'react-bootstrap';
 import imgNotFound from '../../../assets/images/image-not-found.jpg';
 import { baseUrl } from "../../../config";
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de creación de productos para el administrador
+ * 
+ ******************************************************************************/
+
 interface Category {
   id: string;
   name: string;

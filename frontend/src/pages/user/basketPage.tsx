@@ -3,6 +3,16 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de visualización de la cesta de la compra
+ * 
+ ******************************************************************************/
+
 type ProductoCesta = {
   id: string;
   nombre: string;

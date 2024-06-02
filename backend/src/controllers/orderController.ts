@@ -2,6 +2,16 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Controlador de pedidos para la gestión de pedidos en el sistema
+ * 
+ ******************************************************************************/
+
 const prisma = new PrismaClient();
 
 export const createOrder = async (req: Request, res: Response) => {

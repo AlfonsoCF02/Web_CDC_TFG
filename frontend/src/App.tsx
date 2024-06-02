@@ -28,6 +28,16 @@ import ManageMyReservations from './pages/user/manageMyReservations';
 import NotFoundPage from './pages/NotFoundPage';
 import AccessDeniedPage from './pages/AccessDeniedPage';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Herramienta de carga de las rutas de la aplicación
+ * 
+ ******************************************************************************/
+
 interface ProtectedRouteProps {
   children: any;
   allowedRoles: string[];

@@ -6,6 +6,16 @@ import productRouter from './routes/productRouter';
 import orderRouter from './routes/orderRouter';
 import reservationRouter from './routes/reservationRouter';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de inicio del backend la aplicación
+ * 
+ ******************************************************************************/
+
 const app = express();
 
 app.use(cors());

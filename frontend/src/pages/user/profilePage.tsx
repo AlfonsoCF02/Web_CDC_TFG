@@ -1,6 +1,16 @@
 import React from 'react';
 import { useAuth } from '../../AuthProvider';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de "Perfil de Usuario"
+ * 
+ ******************************************************************************/
+
 const ProfileView: React.FC = () => {
   const { user } = useAuth();
 

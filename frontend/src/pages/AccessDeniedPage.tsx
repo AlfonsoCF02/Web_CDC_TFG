@@ -1,6 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de "Acceso Denegado"
+ * 
+ ******************************************************************************/
+
 const AccessDeniedPage = () => {
   const navigate = useNavigate();
 

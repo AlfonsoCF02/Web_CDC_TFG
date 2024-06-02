@@ -3,6 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo_cdc.png';
 import '../../assets/css/my-login.css';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de contraseña olvidada
+ * 
+ ******************************************************************************/
+
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');

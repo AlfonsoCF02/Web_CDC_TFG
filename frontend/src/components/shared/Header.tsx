@@ -3,6 +3,16 @@ import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/images/logo_cdc.png';
 import { useAuth } from '../../AuthProvider';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de cabecera de la aplicación
+ * 
+ ******************************************************************************/
+
 const Header: React.FC = () => {
   const { user, logout } = useAuth(); // Obtener el estado de autenticación del contexto
   const navigate = useNavigate();

@@ -4,6 +4,16 @@ import { Modal, Button, Spinner, Table, Form } from 'react-bootstrap';
 import { baseUrl } from "../../config";
 import { useAuth } from '../../AuthProvider';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de visualización de los pedidos del usuario
+ * 
+ ******************************************************************************/
+
 interface Order {
   id: string;
   userName: string;

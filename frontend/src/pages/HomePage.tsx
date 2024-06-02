@@ -1,6 +1,16 @@
 import React from 'react';
 import logo from '../assets/images/logo_cdc.png';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página principal de la aplicación
+ * 
+ ******************************************************************************/
+
 const HomePage: React.FC = () => {
   return (
     <>
@@ -23,7 +33,7 @@ const HomePage: React.FC = () => {
                   <img src={logo} alt="CDC Logo" className="mb-4" style={{ maxWidth: '200px' }} />
                   <h2>Bienvenido a</h2>
                   <h1 className='mb-3'>Cárnicas Dehesa Chaparral</h1>
-                  <p>Descubre la calidad y el sabor de nuestros productos</p>
+                  <p>Descubre la calidad y el sabor de nuestros productos.</p>
                   <a href="#quienes-somos" className="btn btn-primary btn-lg">Descúbrenos</a>
                 </div>
               </div>

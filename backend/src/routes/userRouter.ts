@@ -4,6 +4,16 @@ import { loginUser, createUser, getAllUsers, deleteUser,
             getUserById, updateUser 
         } from '../controllers/userController';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Gestor de rutas de usuario backend
+ * 
+ ******************************************************************************/
+
 const router = express.Router();
 
 router.post('/login', loginUser);

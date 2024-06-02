@@ -4,6 +4,16 @@ import { baseUrl } from "../../config";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de visualización del catálogo de productos
+ * 
+ ******************************************************************************/
+
 type ProductInCart = {
     id: string;
     nombre: string;

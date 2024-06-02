@@ -3,6 +3,16 @@ import axios from 'axios';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import { baseUrl } from "../../config";
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de visualización de las categorías de productos
+ * 
+ ******************************************************************************/
+
 interface Category {
   id: string;
   categoria: string;

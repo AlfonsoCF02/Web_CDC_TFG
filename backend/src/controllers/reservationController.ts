@@ -2,6 +2,16 @@ import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Controlador de reservas del sistema
+ * 
+ ******************************************************************************/
+
 const prisma = new PrismaClient();
 const MAX_RESERVATIONS_PER_DAY = 5; // Define un máximo de reservas por día
 

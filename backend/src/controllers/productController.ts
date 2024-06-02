@@ -5,8 +5,17 @@ import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Controlador de productos para la gestión de productos en el sistema
+ * 
+ ******************************************************************************/
 
+const prisma = new PrismaClient();
 
 // Función para obtener todos los productos con el nombre de la categoría
 export const getAllProducts = async (req: Request, res: Response) => {

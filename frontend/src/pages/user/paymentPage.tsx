@@ -5,6 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthProvider';
 import { baseUrl } from '../../config';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de "Pago" del sistema
+ * 
+ ******************************************************************************/
+
 type ProductoCesta = {
   id: string;
   nombre: string;

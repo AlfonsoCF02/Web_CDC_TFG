@@ -5,6 +5,16 @@ import { Button, Form, Spinner, Modal } from 'react-bootstrap'; // Importar Moda
 import { useAuth } from '../../AuthProvider';
 import { baseUrl } from "../../config";
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página para modificar el perfil de un usuario
+ * 
+ ******************************************************************************/
+
 interface User {
   id: string;
   name: string;

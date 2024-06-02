@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de middleware de autenticación
+ * 
+ ******************************************************************************/
 
 // Define una interfaz que extiende la interfaz Request de Express para incluir el usuario
 interface RequestWithUser extends Request {

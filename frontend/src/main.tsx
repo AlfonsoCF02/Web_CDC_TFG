@@ -3,9 +3,15 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-//<React.StrictMode> entre app para modo desarrollo
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * @description    Herramiento de carga la aplicación de CDC
+ * 
+ ******************************************************************************/
 
-//Manda 2 veces las peticiones
+//<React.StrictMode> entre app para modo desarrollo manda 2 veces las peticiones
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <App />,

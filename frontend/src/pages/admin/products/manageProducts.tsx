@@ -4,6 +4,16 @@ import { Modal, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from "../../../config";
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de gestión de productos para el administrador
+ * 
+ ******************************************************************************/
+
 interface Product {
     id: string;
     name: string;
@@ -60,7 +70,7 @@ const ManageProductos = () => {
           { title: "Stock", data: "stock" },
           { title: "Categoría", data: "category" },
           //{ title: "Image URL", data: "imageURL" },
-          { title: "Actions", data: "actions" }
+          { title: "Acciones", data: "actions" }
         ],
         lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
         columnDefs: [

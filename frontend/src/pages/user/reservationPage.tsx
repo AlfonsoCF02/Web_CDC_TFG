@@ -3,10 +3,19 @@ import Calendar from 'react-calendar';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-calendar/dist/Calendar.css';
-
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../config';
+
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de "Crear Reserva"
+ * 
+ ******************************************************************************/
 
 interface FieldState {
   value: string;

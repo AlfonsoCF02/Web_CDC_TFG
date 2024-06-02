@@ -1,6 +1,16 @@
 // src/pages/AboutPage.tsx
 import React from 'react';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de about de la aplicación
+ * 
+ ******************************************************************************/
+
 const AboutPage: React.FC = () => {
   return (
     <div className='container'>

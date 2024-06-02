@@ -3,6 +3,16 @@ import axios from 'axios';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import { baseUrl } from "../../config";
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de visualización de las reservas del sistema.
+ *  
+ ******************************************************************************/
+
 interface Reservation {
     id: string;
     orderer: string;
@@ -68,7 +78,7 @@ const ManageReservations = () => {
         destroy: true,
         columns: [
           { title: "ID", data: "id" },
-          { title: "User", data: "userName" },
+          { title: "Usuario", data: "userName" },
           { title: "Ordenante", data: "orderer" },
           { title: "Email", data: "email" },
           { 

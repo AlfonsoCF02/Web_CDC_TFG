@@ -5,6 +5,16 @@ import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Controlador de usuario para la gestión de usuarios en el sistema
+ * 
+ ******************************************************************************/
+
 const prisma = new PrismaClient();
 dotenv.config();
 

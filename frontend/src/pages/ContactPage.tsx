@@ -1,6 +1,16 @@
 // src/pages/ContactPage.tsx
 import React from 'react';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de contacto de la aplicación
+ * 
+ ******************************************************************************/
+
 const ContactPage: React.FC = () => {
   return (
     <div className='container'>

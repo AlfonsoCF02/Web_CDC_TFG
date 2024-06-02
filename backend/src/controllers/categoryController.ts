@@ -5,6 +5,16 @@ import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Controlador de categorías para la gestión de categorías en el sistema
+ * 
+ ******************************************************************************/
+
 const prisma = new PrismaClient();
 
 export const getAllCategories = async (req: Request, res: Response) => {

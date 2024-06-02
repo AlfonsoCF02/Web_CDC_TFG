@@ -3,6 +3,16 @@ import { verifyToken, isAdmin } from '../authMiddleware';
 import { getAllProducts, deleteProduct, createProduct, getProductById, updateProduct, getAllProductsCatalogue
         } from '../controllers/productController';
 
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de gestión de rutas de productos del sistema
+ * 
+ ******************************************************************************/
+
 const router = express.Router();
 
 router.get('/products',  verifyToken, isAdmin, getAllProducts);

@@ -1,3 +1,13 @@
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de pie de página
+ * 
+ ******************************************************************************/
+
 function Footer() {
   return (
 

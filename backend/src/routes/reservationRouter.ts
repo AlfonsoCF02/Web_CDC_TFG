@@ -2,8 +2,17 @@ import express from 'express';
 import { verifyToken, isAdmin } from '../authMiddleware';
 import { checkAvailability, createReservation, getReservations, deleteReservation, getMyReservations } from '../controllers/reservationController';
 
-const router = express.Router();
+/******************************************************************************
+ *
+ * @author          Alfonso Cabezas Fernández
+ * 
+ * Con la ayuda de la herramienta de inteligencia artificial ChatGPT
+ * 
+ * @description    Página de gestión de rutas de reservas del sistema
+ * 
+ ******************************************************************************/
 
+const router = express.Router();
 
 router.get('/checkavailability/:date', checkAvailability);
 router.post('/create', createReservation);
